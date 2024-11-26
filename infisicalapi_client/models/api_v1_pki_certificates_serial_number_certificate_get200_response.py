@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1PkiCertificatesSerialNumberCertificateGet200Response(BaseModel):
     """
@@ -29,11 +29,7 @@ class ApiV1PkiCertificatesSerialNumberCertificateGet200Response(BaseModel):
     certificate_chain: StrictStr = Field(default=..., alias="certificateChain", description="The certificate chain of the certificate")
     serial_number: StrictStr = Field(default=..., alias="serialNumber", description="The serial number of the certificate")
     __properties = ["certificate", "certificateChain", "serialNumber"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

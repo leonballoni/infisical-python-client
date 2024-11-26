@@ -19,8 +19,9 @@ import json
 
 from datetime import datetime
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_workspace_project_id_permissions_get200_response_data_membership_roles_inner import ApiV1WorkspaceProjectIdPermissionsGet200ResponseDataMembershipRolesInner
+from typing_extensions import Annotated
 
 class ApiV1WorkspaceProjectIdPermissionsGet200ResponseDataMembership(BaseModel):
     """
@@ -31,13 +32,9 @@ class ApiV1WorkspaceProjectIdPermissionsGet200ResponseDataMembership(BaseModel):
     updated_at: datetime = Field(default=..., alias="updatedAt")
     user_id: StrictStr = Field(default=..., alias="userId")
     project_id: StrictStr = Field(default=..., alias="projectId")
-    roles: conlist(ApiV1WorkspaceProjectIdPermissionsGet200ResponseDataMembershipRolesInner) = Field(...)
+    roles: Annotated[List[ApiV1WorkspaceProjectIdPermissionsGet200ResponseDataMembershipRolesInner], Field()] = Field(...)
     __properties = ["id", "createdAt", "updatedAt", "userId", "projectId", "roles"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

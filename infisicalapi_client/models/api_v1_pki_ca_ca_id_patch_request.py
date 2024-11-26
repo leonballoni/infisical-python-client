@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1PkiCaCaIdPatchRequest(BaseModel):
     """
@@ -28,7 +28,8 @@ class ApiV1PkiCaCaIdPatchRequest(BaseModel):
     status: Optional[StrictStr] = Field(default=None, description="The status of the CA to update to. This can be one of active or disabled")
     __properties = ["status"]
 
-    @validator('status')
+    @field_validator('status')
+    @classmethod
     def status_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -37,11 +38,7 @@ class ApiV1PkiCaCaIdPatchRequest(BaseModel):
         if value not in ('active', 'disabled'):
             raise ValueError("must be one of enum values ('active', 'disabled')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

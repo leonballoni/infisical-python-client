@@ -19,23 +19,20 @@ import json
 
 
 
-from pydantic import BaseModel, Field, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_additional_privilege_identity_patch_request_privilege_details import ApiV1AdditionalPrivilegeIdentityPatchRequestPrivilegeDetails
+from typing_extensions import Annotated
 
 class ApiV1AdditionalPrivilegeIdentityPatchRequest(BaseModel):
     """
     ApiV1AdditionalPrivilegeIdentityPatchRequest
     """
-    privilege_slug: constr(strict=True, min_length=1) = Field(default=..., alias="privilegeSlug", description="The slug of the privilege to update.")
-    identity_id: constr(strict=True, min_length=1) = Field(default=..., alias="identityId", description="The ID of the identity to update.")
-    project_slug: constr(strict=True, min_length=1) = Field(default=..., alias="projectSlug", description="The slug of the project of the identity in.")
+    privilege_slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="privilegeSlug", description="The slug of the privilege to update.")
+    identity_id: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="identityId", description="The ID of the identity to update.")
+    project_slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="projectSlug", description="The slug of the project of the identity in.")
     privilege_details: ApiV1AdditionalPrivilegeIdentityPatchRequestPrivilegeDetails = Field(default=..., alias="privilegeDetails")
     __properties = ["privilegeSlug", "identityId", "projectSlug", "privilegeDetails"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

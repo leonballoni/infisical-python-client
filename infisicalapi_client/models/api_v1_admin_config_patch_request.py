@@ -19,7 +19,8 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictBool, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1AdminConfigPatchRequest(BaseModel):
     """
@@ -31,10 +32,11 @@ class ApiV1AdminConfigPatchRequest(BaseModel):
     trust_ldap_emails: Optional[StrictBool] = Field(default=None, alias="trustLdapEmails")
     trust_oidc_emails: Optional[StrictBool] = Field(default=None, alias="trustOidcEmails")
     default_auth_org_id: Optional[StrictStr] = Field(default=None, alias="defaultAuthOrgId")
-    enabled_login_methods: Optional[conlist(StrictStr)] = Field(default=None, alias="enabledLoginMethods")
+    enabled_login_methods: Optional[Annotated[List[StrictStr], Field()]] = Field(default=None, alias="enabledLoginMethods")
     __properties = ["allowSignUp", "allowedSignUpDomain", "trustSamlEmails", "trustLdapEmails", "trustOidcEmails", "defaultAuthOrgId", "enabledLoginMethods"]
 
-    @validator('enabled_login_methods')
+    @field_validator('enabled_login_methods')
+    @classmethod
     def enabled_login_methods_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -44,11 +46,7 @@ class ApiV1AdminConfigPatchRequest(BaseModel):
             if i not in ('email', 'google', 'github', 'gitlab', 'saml', 'ldap', 'oidc'):
                 raise ValueError("each list item must be one of ('email', 'google', 'github', 'gitlab', 'saml', 'ldap', 'oidc')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

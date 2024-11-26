@@ -19,11 +19,12 @@ import json
 
 from datetime import datetime
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_secret_approval_requests_get200_response_approvals_inner_committer_user import ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerCommitterUser
 from infisicalapi_client.models.api_v1_secret_approval_requests_id_get200_response_approval_commits_inner import ApiV1SecretApprovalRequestsIdGet200ResponseApprovalCommitsInner
 from infisicalapi_client.models.api_v1_secret_approval_requests_id_get200_response_approval_policy import ApiV1SecretApprovalRequestsIdGet200ResponseApprovalPolicy
 from infisicalapi_client.models.api_v1_secret_approval_requests_id_get200_response_approval_reviewers_inner import ApiV1SecretApprovalRequestsIdGet200ResponseApprovalReviewersInner
+from typing_extensions import Annotated
 
 class ApiV1SecretApprovalRequestsIdGet200ResponseApproval(BaseModel):
     """
@@ -46,15 +47,11 @@ class ApiV1SecretApprovalRequestsIdGet200ResponseApproval(BaseModel):
     environment: StrictStr = Field(...)
     status_changed_by_user: Optional[ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerCommitterUser] = Field(default=None, alias="statusChangedByUser")
     committer_user: ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerCommitterUser = Field(default=..., alias="committerUser")
-    reviewers: conlist(ApiV1SecretApprovalRequestsIdGet200ResponseApprovalReviewersInner) = Field(...)
+    reviewers: Annotated[List[ApiV1SecretApprovalRequestsIdGet200ResponseApprovalReviewersInner], Field()] = Field(...)
     secret_path: StrictStr = Field(default=..., alias="secretPath")
-    commits: conlist(ApiV1SecretApprovalRequestsIdGet200ResponseApprovalCommitsInner) = Field(...)
+    commits: Annotated[List[ApiV1SecretApprovalRequestsIdGet200ResponseApprovalCommitsInner], Field()] = Field(...)
     __properties = ["id", "policyId", "hasMerged", "status", "conflicts", "slug", "folderId", "createdAt", "updatedAt", "isReplicated", "committerUserId", "statusChangedByUserId", "bypassReason", "policy", "environment", "statusChangedByUser", "committerUser", "reviewers", "secretPath", "commits"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,8 +19,9 @@ import json
 
 from datetime import datetime
 from typing import Any, List, Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt, StrictStr
 from infisicalapi_client.models.api_v2_service_token_get200_response_user import ApiV2ServiceTokenGet200ResponseUser
+from typing_extensions import Annotated
 
 class ApiV2ServiceTokenGet200Response(BaseModel):
     """
@@ -29,7 +30,7 @@ class ApiV2ServiceTokenGet200Response(BaseModel):
     id: StrictStr = Field(...)
     name: StrictStr = Field(...)
     scopes: Optional[Any] = None
-    permissions: conlist(StrictStr) = Field(...)
+    permissions: Annotated[List[StrictStr], Field()] = Field(...)
     last_used: Optional[datetime] = Field(default=None, alias="lastUsed")
     expires_at: Optional[datetime] = Field(default=None, alias="expiresAt")
     secret_hash: StrictStr = Field(default=..., alias="secretHash")
@@ -45,11 +46,7 @@ class ApiV2ServiceTokenGet200Response(BaseModel):
     id: StrictStr = Field(default=..., alias="_id")
     v: Optional[Union[StrictFloat, StrictInt]] = Field(default=0, alias="__v")
     __properties = ["id", "name", "scopes", "permissions", "lastUsed", "expiresAt", "secretHash", "encryptedKey", "iv", "tag", "createdAt", "updatedAt", "createdBy", "projectId", "workspace", "user", "_id", "__v"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

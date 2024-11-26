@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1PasswordChangePasswordPostRequest(BaseModel):
     """
@@ -36,11 +36,7 @@ class ApiV1PasswordChangePasswordPostRequest(BaseModel):
     verifier: StrictStr = Field(...)
     password: StrictStr = Field(...)
     __properties = ["clientProof", "protectedKey", "protectedKeyIV", "protectedKeyTag", "encryptedPrivateKey", "encryptedPrivateKeyIV", "encryptedPrivateKeyTag", "salt", "verifier", "password"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

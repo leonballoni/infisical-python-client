@@ -19,7 +19,8 @@ import json
 
 
 from typing import Dict, List, Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictStr, confloat, conint, conlist, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictBool, StrictStr
+from typing_extensions import Annotated
 
 class ApiV3SecretsSecretNamePatchRequest(BaseModel):
     """
@@ -36,9 +37,9 @@ class ApiV3SecretsSecretNamePatchRequest(BaseModel):
     secret_comment_ciphertext: Optional[StrictStr] = Field(default=None, alias="secretCommentCiphertext")
     secret_comment_iv: Optional[StrictStr] = Field(default=None, alias="secretCommentIV")
     secret_comment_tag: Optional[StrictStr] = Field(default=None, alias="secretCommentTag")
-    secret_reminder_repeat_days: Optional[Union[confloat(le=365, ge=1, strict=True), conint(le=365, ge=1, strict=True)]] = Field(default=None, alias="secretReminderRepeatDays")
+    secret_reminder_repeat_days: Optional[Union[Annotated[float, Field(le=365, ge=1, strict=True)], Annotated[int, Field(le=365, ge=1, strict=True)]]] = Field(default=None, alias="secretReminderRepeatDays")
     secret_reminder_note: Optional[StrictStr] = Field(default=None, alias="secretReminderNote")
-    tags: Optional[conlist(StrictStr)] = None
+    tags: Optional[Annotated[List[StrictStr], Field()]] = None
     skip_multiline_encoding: Optional[StrictBool] = Field(default=None, alias="skipMultilineEncoding")
     secret_name: Optional[StrictStr] = Field(default=None, alias="secretName")
     secret_key_iv: Optional[StrictStr] = Field(default=None, alias="secretKeyIV")
@@ -47,7 +48,8 @@ class ApiV3SecretsSecretNamePatchRequest(BaseModel):
     metadata: Optional[Dict[str, StrictStr]] = None
     __properties = ["workspaceId", "environment", "secretId", "type", "secretPath", "secretValueCiphertext", "secretValueIV", "secretValueTag", "secretCommentCiphertext", "secretCommentIV", "secretCommentTag", "secretReminderRepeatDays", "secretReminderNote", "tags", "skipMultilineEncoding", "secretName", "secretKeyIV", "secretKeyTag", "secretKeyCiphertext", "metadata"]
 
-    @validator('type')
+    @field_validator('type')
+    @classmethod
     def type_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -56,11 +58,7 @@ class ApiV3SecretsSecretNamePatchRequest(BaseModel):
         if value not in ('shared', 'personal'):
             raise ValueError("must be one of enum values ('shared', 'personal')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

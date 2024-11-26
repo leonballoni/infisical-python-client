@@ -19,24 +19,21 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1PkiCaCaIdIssueCertificatePostRequest(BaseModel):
     """
     ApiV1PkiCaCaIdIssueCertificatePostRequest
     """
     friendly_name: Optional[StrictStr] = Field(default=None, alias="friendlyName", description="A friendly name for the certificate")
-    common_name: constr(strict=True, min_length=1) = Field(default=..., alias="commonName", description="The common name (CN) for the certificate")
+    common_name: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="commonName", description="The common name (CN) for the certificate")
     alt_names: Optional[StrictStr] = Field(default='', alias="altNames", description="A comma-delimited list of Subject Alternative Names (SANs) for the certificate; these can be host names or email addresses.")
     ttl: StrictStr = Field(default=..., description="The time to live for the certificate such as 1m, 1h, 1d, 1y, ...")
     not_before: Optional[StrictStr] = Field(default=None, alias="notBefore", description="The date and time when the certificate becomes valid in YYYY-MM-DDTHH:mm:ss.sssZ format")
     not_after: Optional[StrictStr] = Field(default=None, alias="notAfter", description="The date and time when the certificate expires in YYYY-MM-DDTHH:mm:ss.sssZ format")
     __properties = ["friendlyName", "commonName", "altNames", "ttl", "notBefore", "notAfter"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

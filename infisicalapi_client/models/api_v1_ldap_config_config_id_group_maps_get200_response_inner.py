@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_secret_approvals_get200_response_approvals_inner_environment import ApiV1SecretApprovalsGet200ResponseApprovalsInnerEnvironment
 
 class ApiV1LdapConfigConfigIdGroupMapsGet200ResponseInner(BaseModel):
@@ -31,11 +31,7 @@ class ApiV1LdapConfigConfigIdGroupMapsGet200ResponseInner(BaseModel):
     ldap_group_cn: StrictStr = Field(default=..., alias="ldapGroupCN")
     group: ApiV1SecretApprovalsGet200ResponseApprovalsInnerEnvironment = Field(...)
     __properties = ["id", "ldapConfigId", "ldapGroupCN", "group"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

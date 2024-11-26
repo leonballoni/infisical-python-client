@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_external_kms_post_request_provider_inputs import ApiV1ExternalKmsPostRequestProviderInputs
 
 class ApiV1ExternalKmsIdGet200ResponseExternalKmsExternal(BaseModel):
@@ -32,11 +32,7 @@ class ApiV1ExternalKmsIdGet200ResponseExternalKmsExternal(BaseModel):
     provider: StrictStr = Field(...)
     provider_input: ApiV1ExternalKmsPostRequestProviderInputs = Field(default=..., alias="providerInput")
     __properties = ["id", "status", "statusDetails", "provider", "providerInput"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

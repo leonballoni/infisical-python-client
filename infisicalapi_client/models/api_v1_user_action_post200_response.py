@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_user_action_post200_response_user_action import ApiV1UserActionPost200ResponseUserAction
 
 class ApiV1UserActionPost200Response(BaseModel):
@@ -29,11 +29,7 @@ class ApiV1UserActionPost200Response(BaseModel):
     message: StrictStr = Field(...)
     user_action: ApiV1UserActionPost200ResponseUserAction = Field(default=..., alias="userAction")
     __properties = ["message", "userAction"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

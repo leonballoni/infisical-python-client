@@ -19,7 +19,8 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV3SignupCompleteAccountSignupPostRequest(BaseModel):
     """
@@ -37,16 +38,12 @@ class ApiV3SignupCompleteAccountSignupPostRequest(BaseModel):
     encrypted_private_key_tag: StrictStr = Field(default=..., alias="encryptedPrivateKeyTag")
     salt: StrictStr = Field(...)
     verifier: StrictStr = Field(...)
-    organization_name: constr(strict=True, min_length=1) = Field(default=..., alias="organizationName")
+    organization_name: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="organizationName")
     provider_auth_token: Optional[StrictStr] = Field(default=None, alias="providerAuthToken")
     attribution_source: Optional[StrictStr] = Field(default=None, alias="attributionSource")
     password: StrictStr = Field(...)
     __properties = ["email", "firstName", "lastName", "protectedKey", "protectedKeyIV", "protectedKeyTag", "publicKey", "encryptedPrivateKey", "encryptedPrivateKeyIV", "encryptedPrivateKeyTag", "salt", "verifier", "organizationName", "providerAuthToken", "attributionSource", "password"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

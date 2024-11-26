@@ -19,7 +19,7 @@ import json
 
 
 from typing import Dict, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV3SecretsSecretNamePostRequest(BaseModel):
     """
@@ -42,7 +42,8 @@ class ApiV3SecretsSecretNamePostRequest(BaseModel):
     skip_multiline_encoding: Optional[StrictBool] = Field(default=None, alias="skipMultilineEncoding")
     __properties = ["workspaceId", "environment", "type", "secretPath", "secretKeyCiphertext", "secretKeyIV", "secretKeyTag", "secretValueCiphertext", "secretValueIV", "secretValueTag", "secretCommentCiphertext", "secretCommentIV", "secretCommentTag", "metadata", "skipMultilineEncoding"]
 
-    @validator('type')
+    @field_validator('type')
+    @classmethod
     def type_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -51,11 +52,7 @@ class ApiV3SecretsSecretNamePostRequest(BaseModel):
         if value not in ('shared', 'personal'):
             raise ValueError("must be one of enum values ('shared', 'personal')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

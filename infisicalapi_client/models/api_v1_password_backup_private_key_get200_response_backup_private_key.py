@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1PasswordBackupPrivateKeyGet200ResponseBackupPrivateKey(BaseModel):
     """
@@ -36,11 +36,7 @@ class ApiV1PasswordBackupPrivateKeyGet200ResponseBackupPrivateKey(BaseModel):
     updated_at: datetime = Field(default=..., alias="updatedAt")
     user_id: StrictStr = Field(default=..., alias="userId")
     __properties = ["id", "encryptedPrivateKey", "iv", "tag", "algorithm", "keyEncoding", "salt", "createdAt", "updatedAt", "userId"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,23 +19,20 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_workspace_project_slug_roles_post_request_permissions_inner import ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner
+from typing_extensions import Annotated
 
 class ApiV1WorkspaceProjectSlugRolesPostRequest(BaseModel):
     """
     ApiV1WorkspaceProjectSlugRolesPostRequest
     """
-    slug: constr(strict=True, min_length=1) = Field(default=..., description="The slug of the role.")
-    name: constr(strict=True, min_length=1) = Field(default=..., description="The name of the role.")
+    slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., description="The slug of the role.")
+    name: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., description="The name of the role.")
     description: Optional[StrictStr] = Field(default=None, description="The description for the role.")
-    permissions: conlist(ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner) = Field(default=..., description="The permissions assigned to the role.")
+    permissions: Annotated[List[ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner], Field()] = Field(default=..., description="The permissions assigned to the role.")
     __properties = ["slug", "name", "description", "permissions"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

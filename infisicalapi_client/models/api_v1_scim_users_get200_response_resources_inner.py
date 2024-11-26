@@ -19,9 +19,10 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_scim_users_get200_response_resources_inner_emails_inner import ApiV1ScimUsersGet200ResponseResourcesInnerEmailsInner
 from infisicalapi_client.models.api_v1_scim_users_get200_response_resources_inner_name import ApiV1ScimUsersGet200ResponseResourcesInnerName
+from typing_extensions import Annotated
 
 class ApiV1ScimUsersGet200ResponseResourcesInner(BaseModel):
     """
@@ -30,15 +31,11 @@ class ApiV1ScimUsersGet200ResponseResourcesInner(BaseModel):
     id: StrictStr = Field(...)
     user_name: StrictStr = Field(default=..., alias="userName")
     name: ApiV1ScimUsersGet200ResponseResourcesInnerName = Field(...)
-    emails: conlist(ApiV1ScimUsersGet200ResponseResourcesInnerEmailsInner) = Field(...)
+    emails: Annotated[List[ApiV1ScimUsersGet200ResponseResourcesInnerEmailsInner], Field()] = Field(...)
     display_name: StrictStr = Field(default=..., alias="displayName")
     active: StrictBool = Field(...)
     __properties = ["id", "userName", "name", "emails", "displayName", "active"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

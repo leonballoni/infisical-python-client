@@ -19,20 +19,22 @@ import json
 
 
 from typing import List, Optional, Union
-from pydantic import BaseModel, Field, StrictStr, confloat, conint, conlist, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1SecretApprovalsSapIdPatchRequest(BaseModel):
     """
     ApiV1SecretApprovalsSapIdPatchRequest
     """
     name: Optional[StrictStr] = None
-    approvers: conlist(StrictStr, min_items=1) = Field(...)
-    approvals: Optional[Union[confloat(ge=1, strict=True), conint(ge=1, strict=True)]] = 1
+    approvers: Annotated[List[StrictStr], Field(min_length=1)] = Field(...)
+    approvals: Optional[Union[Annotated[float, Field(ge=1, strict=True)], Annotated[int, Field(ge=1, strict=True)]]] = 1
     secret_path: Optional[StrictStr] = Field(default=None, alias="secretPath")
     enforcement_level: Optional[StrictStr] = Field(default=None, alias="enforcementLevel")
     __properties = ["name", "approvers", "approvals", "secretPath", "enforcementLevel"]
 
-    @validator('enforcement_level')
+    @field_validator('enforcement_level')
+    @classmethod
     def enforcement_level_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -41,11 +43,7 @@ class ApiV1SecretApprovalsSapIdPatchRequest(BaseModel):
         if value not in ('hard', 'soft'):
             raise ValueError("must be one of enum values ('hard', 'soft')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

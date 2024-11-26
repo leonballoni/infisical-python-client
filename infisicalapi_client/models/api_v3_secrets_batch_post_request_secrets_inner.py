@@ -19,7 +19,7 @@ import json
 
 
 from typing import Dict, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV3SecretsBatchPostRequestSecretsInner(BaseModel):
     """
@@ -38,11 +38,7 @@ class ApiV3SecretsBatchPostRequestSecretsInner(BaseModel):
     metadata: Optional[Dict[str, StrictStr]] = None
     skip_multiline_encoding: Optional[StrictBool] = Field(default=None, alias="skipMultilineEncoding")
     __properties = ["secretName", "secretKeyCiphertext", "secretKeyIV", "secretKeyTag", "secretValueCiphertext", "secretValueIV", "secretValueTag", "secretCommentCiphertext", "secretCommentIV", "secretCommentTag", "metadata", "skipMultilineEncoding"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

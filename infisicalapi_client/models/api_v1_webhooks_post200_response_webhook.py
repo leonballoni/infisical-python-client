@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_secret_approvals_get200_response_approvals_inner_environment import ApiV1SecretApprovalsGet200ResponseApprovalsInnerEnvironment
 
 class ApiV1WebhooksPost200ResponseWebhook(BaseModel):
@@ -38,11 +38,7 @@ class ApiV1WebhooksPost200ResponseWebhook(BaseModel):
     project_id: StrictStr = Field(default=..., alias="projectId")
     environment: ApiV1SecretApprovalsGet200ResponseApprovalsInnerEnvironment = Field(...)
     __properties = ["id", "secretPath", "lastStatus", "lastRunErrorMessage", "isDisabled", "createdAt", "updatedAt", "envId", "type", "projectId", "environment"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

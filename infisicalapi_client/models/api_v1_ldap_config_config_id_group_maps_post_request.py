@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1LdapConfigConfigIdGroupMapsPostRequest(BaseModel):
     """
@@ -28,11 +28,7 @@ class ApiV1LdapConfigConfigIdGroupMapsPostRequest(BaseModel):
     ldap_group_cn: StrictStr = Field(default=..., alias="ldapGroupCN")
     group_slug: StrictStr = Field(default=..., alias="groupSlug")
     __properties = ["ldapGroupCN", "groupSlug"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

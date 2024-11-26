@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1ScimUsersGet200ResponseResourcesInnerName(BaseModel):
     """
@@ -28,11 +28,7 @@ class ApiV1ScimUsersGet200ResponseResourcesInnerName(BaseModel):
     family_name: StrictStr = Field(default=..., alias="familyName")
     given_name: StrictStr = Field(default=..., alias="givenName")
     __properties = ["familyName", "givenName"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

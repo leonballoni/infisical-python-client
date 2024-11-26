@@ -19,22 +19,19 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_external_kms_post_request_provider import ApiV1ExternalKmsPostRequestProvider
+from typing_extensions import Annotated
 
 class ApiV1ExternalKmsPostRequest(BaseModel):
     """
     ApiV1ExternalKmsPostRequest
     """
-    slug: constr(strict=True, min_length=1) = Field(...)
+    slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(...)
     description: Optional[StrictStr] = None
     provider: ApiV1ExternalKmsPostRequestProvider = Field(...)
     __properties = ["slug", "description", "provider"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

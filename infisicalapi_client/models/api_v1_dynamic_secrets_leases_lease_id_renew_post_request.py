@@ -19,22 +19,19 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1DynamicSecretsLeasesLeaseIdRenewPostRequest(BaseModel):
     """
     ApiV1DynamicSecretsLeasesLeaseIdRenewPostRequest
     """
     ttl: Optional[StrictStr] = Field(default=None, description="The renew TTL that gets added with current expiry (ensure it's below max TTL) for a total less than creation time + max TTL.")
-    project_slug: constr(strict=True, min_length=1) = Field(default=..., alias="projectSlug", description="The slug of the project of the dynamic secret in.")
-    path: Optional[constr(strict=True, min_length=1)] = Field(default='/', description="The path of the dynamic secret in.")
-    environment_slug: constr(strict=True, min_length=1) = Field(default=..., alias="environmentSlug", description="The slug of the environment of the dynamic secret in.")
+    project_slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="projectSlug", description="The slug of the project of the dynamic secret in.")
+    path: Optional[Annotated[str, StringConstraints(strict=True, min_length=1)]] = Field(default='/', description="The path of the dynamic secret in.")
+    environment_slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="environmentSlug", description="The slug of the environment of the dynamic secret in.")
     __properties = ["ttl", "projectSlug", "path", "environmentSlug"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

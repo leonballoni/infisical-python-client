@@ -19,7 +19,8 @@ import json
 
 from datetime import datetime
 from typing import Any, List, Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1UserGet200ResponseUser(BaseModel):
     """
@@ -27,13 +28,13 @@ class ApiV1UserGet200ResponseUser(BaseModel):
     """
     id: StrictStr = Field(...)
     email: Optional[StrictStr] = None
-    auth_methods: Optional[conlist(StrictStr)] = Field(default=None, alias="authMethods")
+    auth_methods: Optional[Annotated[List[StrictStr], Field()]] = Field(default=None, alias="authMethods")
     super_admin: Optional[StrictBool] = Field(default=False, alias="superAdmin")
     first_name: Optional[StrictStr] = Field(default=None, alias="firstName")
     last_name: Optional[StrictStr] = Field(default=None, alias="lastName")
     is_accepted: Optional[StrictBool] = Field(default=False, alias="isAccepted")
     is_mfa_enabled: Optional[StrictBool] = Field(default=False, alias="isMfaEnabled")
-    mfa_methods: Optional[conlist(StrictStr)] = Field(default=None, alias="mfaMethods")
+    mfa_methods: Optional[Annotated[List[StrictStr], Field()]] = Field(default=None, alias="mfaMethods")
     devices: Optional[Any] = None
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
@@ -58,11 +59,7 @@ class ApiV1UserGet200ResponseUser(BaseModel):
     verifier: StrictStr = Field(...)
     user_id: StrictStr = Field(default=..., alias="userId")
     __properties = ["id", "email", "authMethods", "superAdmin", "firstName", "lastName", "isAccepted", "isMfaEnabled", "mfaMethods", "devices", "createdAt", "updatedAt", "isGhost", "username", "isEmailVerified", "consecutiveFailedMfaAttempts", "isLocked", "temporaryLockDateEnd", "consecutiveFailedPasswordAttempts", "clientPublicKey", "serverPrivateKey", "encryptionVersion", "protectedKey", "protectedKeyIV", "protectedKeyTag", "publicKey", "encryptedPrivateKey", "iv", "tag", "salt", "verifier", "userId"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,26 +19,23 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_dynamic_secrets_post_request_provider import ApiV1DynamicSecretsPostRequestProvider
+from typing_extensions import Annotated
 
 class ApiV1DynamicSecretsPostRequest(BaseModel):
     """
     ApiV1DynamicSecretsPostRequest
     """
-    project_slug: constr(strict=True, min_length=1) = Field(default=..., alias="projectSlug", description="The slug of the project to create dynamic secret in.")
+    project_slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="projectSlug", description="The slug of the project to create dynamic secret in.")
     provider: ApiV1DynamicSecretsPostRequestProvider = Field(...)
     default_ttl: StrictStr = Field(default=..., alias="defaultTTL", description="The default TTL that will be applied for all the leases.")
     max_ttl: Optional[StrictStr] = Field(default=None, alias="maxTTL", description="The maximum limit a TTL can be leases or renewed.")
     path: Optional[StrictStr] = Field(default='/', description="The path to create the dynamic secret in.")
-    environment_slug: constr(strict=True, min_length=1) = Field(default=..., alias="environmentSlug", description="The slug of the environment to create the dynamic secret in.")
-    name: constr(strict=True, max_length=64, min_length=1) = Field(default=..., description="The name of the dynamic secret.")
+    environment_slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="environmentSlug", description="The slug of the environment to create the dynamic secret in.")
+    name: Annotated[str, StringConstraints(strict=True, max_length=64, min_length=1)] = Field(default=..., description="The name of the dynamic secret.")
     __properties = ["projectSlug", "provider", "defaultTTL", "maxTTL", "path", "environmentSlug", "name"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

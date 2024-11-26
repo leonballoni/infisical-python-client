@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV1GroupsSlugUsersGet200ResponseUsersInner(BaseModel):
     """
@@ -32,11 +32,7 @@ class ApiV1GroupsSlugUsersGet200ResponseUsersInner(BaseModel):
     id: StrictStr = Field(...)
     is_part_of_group: StrictBool = Field(default=..., alias="isPartOfGroup")
     __properties = ["email", "username", "firstName", "lastName", "id", "isPartOfGroup"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

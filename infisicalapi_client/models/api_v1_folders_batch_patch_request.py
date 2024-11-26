@@ -19,21 +19,18 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_folders_batch_patch_request_folders_inner import ApiV1FoldersBatchPatchRequestFoldersInner
+from typing_extensions import Annotated
 
 class ApiV1FoldersBatchPatchRequest(BaseModel):
     """
     ApiV1FoldersBatchPatchRequest
     """
     project_slug: StrictStr = Field(default=..., alias="projectSlug", description="The slug of the project where the folder is located.")
-    folders: conlist(ApiV1FoldersBatchPatchRequestFoldersInner, min_items=1) = Field(...)
+    folders: Annotated[List[ApiV1FoldersBatchPatchRequestFoldersInner], Field(min_length=1)] = Field(...)
     __properties = ["projectSlug", "folders"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Any, Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 
 class ApiV3WorkspacesProjectIdSecretsGet200ResponseSecretsInner(BaseModel):
     """
@@ -50,11 +50,7 @@ class ApiV3WorkspacesProjectIdSecretsGet200ResponseSecretsInner(BaseModel):
     environment: StrictStr = Field(...)
     workspace: StrictStr = Field(...)
     __properties = ["id", "version", "type", "secretKeyCiphertext", "secretKeyIV", "secretKeyTag", "secretValueCiphertext", "secretValueIV", "secretValueTag", "secretCommentCiphertext", "secretCommentIV", "secretCommentTag", "secretReminderNote", "secretReminderRepeatDays", "skipMultilineEncoding", "algorithm", "keyEncoding", "metadata", "userId", "folderId", "createdAt", "updatedAt", "environment", "workspace"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

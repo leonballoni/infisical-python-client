@@ -19,7 +19,8 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictStr, confloat, conint
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1SecretSharingPublicPostRequest(BaseModel):
     """
@@ -30,13 +31,9 @@ class ApiV1SecretSharingPublicPostRequest(BaseModel):
     iv: StrictStr = Field(...)
     tag: StrictStr = Field(...)
     expires_at: StrictStr = Field(default=..., alias="expiresAt")
-    expires_after_views: Optional[Union[confloat(ge=1, strict=True), conint(ge=1, strict=True)]] = Field(default=None, alias="expiresAfterViews")
+    expires_after_views: Optional[Union[Annotated[float, Field(ge=1, strict=True)], Annotated[int, Field(ge=1, strict=True)]]] = Field(default=None, alias="expiresAfterViews")
     __properties = ["encryptedValue", "hashedHex", "iv", "tag", "expiresAt", "expiresAfterViews"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,20 +19,17 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, conlist
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_integration_auth_integration_auth_id_aws_secrets_manager_kms_keys_get200_response_kms_keys_inner import ApiV1IntegrationAuthIntegrationAuthIdAwsSecretsManagerKmsKeysGet200ResponseKmsKeysInner
+from typing_extensions import Annotated
 
 class ApiV1IntegrationAuthIntegrationAuthIdAwsSecretsManagerKmsKeysGet200Response(BaseModel):
     """
     ApiV1IntegrationAuthIntegrationAuthIdAwsSecretsManagerKmsKeysGet200Response
     """
-    kms_keys: conlist(ApiV1IntegrationAuthIntegrationAuthIdAwsSecretsManagerKmsKeysGet200ResponseKmsKeysInner) = Field(default=..., alias="kmsKeys")
+    kms_keys: Annotated[List[ApiV1IntegrationAuthIntegrationAuthIdAwsSecretsManagerKmsKeysGet200ResponseKmsKeysInner], Field()] = Field(default=..., alias="kmsKeys")
     __properties = ["kmsKeys"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

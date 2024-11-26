@@ -19,8 +19,9 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_workspace_project_slug_roles_post_request_permissions_inner import ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner
+from typing_extensions import Annotated
 
 class ApiV1WorkspaceProjectSlugRolesRoleIdPatchRequest(BaseModel):
     """
@@ -28,13 +29,9 @@ class ApiV1WorkspaceProjectSlugRolesRoleIdPatchRequest(BaseModel):
     """
     slug: Optional[StrictStr] = Field(default=None, description="The slug of the role.")
     name: Optional[StrictStr] = Field(default=None, description="The name of the role.")
-    permissions: Optional[conlist(ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner)] = Field(default=None, description="The permissions assigned to the role.")
+    permissions: Optional[Annotated[List[ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner], Field()]] = Field(default=None, description="The permissions assigned to the role.")
     __properties = ["slug", "name", "permissions"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 from infisicalapi_client.models.api_v1_secret_imports_get200_response_secret_imports_inner_import_env import ApiV1SecretImportsGet200ResponseSecretImportsInnerImportEnv
 
 class ApiV1SecretImportsGet200ResponseSecretImportsInner(BaseModel):
@@ -40,11 +40,7 @@ class ApiV1SecretImportsGet200ResponseSecretImportsInner(BaseModel):
     is_reserved: Optional[StrictBool] = Field(default=False, alias="isReserved")
     import_env: ApiV1SecretImportsGet200ResponseSecretImportsInnerImportEnv = Field(default=..., alias="importEnv")
     __properties = ["id", "version", "importPath", "position", "createdAt", "updatedAt", "folderId", "isReplication", "isReplicationSuccess", "replicationStatus", "lastReplicated", "isReserved", "importEnv"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -16,11 +16,11 @@ from setuptools import setup, find_packages  # noqa: H301
 # http://pypi.python.org/pypi/setuptools
 NAME = "infisicalsdk"
 VERSION = "1.0.1"
-PYTHON_REQUIRES = ">=3.7"
+PYTHON_REQUIRES = ">=3.8"
 REQUIRES = [
     "urllib3 >= 1.25.3, < 2.1.0",
     "python-dateutil",
-    "pydantic >= 1.10.5, < 2",
+    "pydantic >= 2.1",
     "aenum",
     "requests~=2.32",
     "boto3~=1.35",

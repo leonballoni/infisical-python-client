@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_workspace_project_slug_roles_post_request_permissions_inner_conditions_secret_path import ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInnerConditionsSecretPath
 
 class ApiV1AdditionalPrivilegeIdentityPermanentPostRequestPrivilegePermissionConditions(BaseModel):
@@ -29,11 +29,7 @@ class ApiV1AdditionalPrivilegeIdentityPermanentPostRequestPrivilegePermissionCon
     environment: StrictStr = Field(default=..., description="The environment slug this permission should allow.")
     secret_path: Optional[ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInnerConditionsSecretPath] = Field(default=None, alias="secretPath")
     __properties = ["environment", "secretPath"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

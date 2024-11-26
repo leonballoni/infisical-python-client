@@ -19,8 +19,9 @@ import json
 
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_workspace_project_slug_roles_post200_response_role_permissions_inner import ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInner
+from typing_extensions import Annotated
 
 class ApiV1AdditionalPrivilegeIdentityPermanentPost200ResponsePrivilege(BaseModel):
     """
@@ -34,15 +35,11 @@ class ApiV1AdditionalPrivilegeIdentityPermanentPost200ResponsePrivilege(BaseMode
     temporary_range: Optional[StrictStr] = Field(default=None, alias="temporaryRange")
     temporary_access_start_time: Optional[datetime] = Field(default=None, alias="temporaryAccessStartTime")
     temporary_access_end_time: Optional[datetime] = Field(default=None, alias="temporaryAccessEndTime")
-    permissions: conlist(ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInner) = Field(...)
+    permissions: Annotated[List[ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInner], Field()] = Field(...)
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
     __properties = ["id", "slug", "projectMembershipId", "isTemporary", "temporaryMode", "temporaryRange", "temporaryAccessStartTime", "temporaryAccessEndTime", "permissions", "createdAt", "updatedAt"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

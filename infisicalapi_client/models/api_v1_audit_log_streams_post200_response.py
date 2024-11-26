@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_audit_log_streams_get200_response_audit_log_streams_inner import ApiV1AuditLogStreamsGet200ResponseAuditLogStreamsInner
 
 class ApiV1AuditLogStreamsPost200Response(BaseModel):
@@ -28,11 +28,7 @@ class ApiV1AuditLogStreamsPost200Response(BaseModel):
     """
     audit_log_stream: ApiV1AuditLogStreamsGet200ResponseAuditLogStreamsInner = Field(default=..., alias="auditLogStream")
     __properties = ["auditLogStream"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

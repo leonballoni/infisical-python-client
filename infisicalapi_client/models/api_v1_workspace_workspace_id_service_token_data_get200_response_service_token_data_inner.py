@@ -19,7 +19,8 @@ import json
 
 from datetime import datetime
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1WorkspaceWorkspaceIdServiceTokenDataGet200ResponseServiceTokenDataInner(BaseModel):
     """
@@ -28,7 +29,7 @@ class ApiV1WorkspaceWorkspaceIdServiceTokenDataGet200ResponseServiceTokenDataInn
     id: StrictStr = Field(...)
     name: StrictStr = Field(...)
     scopes: Optional[Any] = None
-    permissions: conlist(StrictStr) = Field(...)
+    permissions: Annotated[List[StrictStr], Field()] = Field(...)
     last_used: Optional[datetime] = Field(default=None, alias="lastUsed")
     expires_at: Optional[datetime] = Field(default=None, alias="expiresAt")
     created_at: datetime = Field(default=..., alias="createdAt")
@@ -36,11 +37,7 @@ class ApiV1WorkspaceWorkspaceIdServiceTokenDataGet200ResponseServiceTokenDataInn
     created_by: StrictStr = Field(default=..., alias="createdBy")
     project_id: StrictStr = Field(default=..., alias="projectId")
     __properties = ["id", "name", "scopes", "permissions", "lastUsed", "expiresAt", "createdAt", "updatedAt", "createdBy", "projectId"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

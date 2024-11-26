@@ -19,20 +19,17 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, conlist
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_additional_privilege_users_permanent_post200_response_privilege import ApiV1AdditionalPrivilegeUsersPermanentPost200ResponsePrivilege
+from typing_extensions import Annotated
 
 class ApiV1AdditionalPrivilegeUsersGet200Response(BaseModel):
     """
     ApiV1AdditionalPrivilegeUsersGet200Response
     """
-    privileges: conlist(ApiV1AdditionalPrivilegeUsersPermanentPost200ResponsePrivilege) = Field(...)
+    privileges: Annotated[List[ApiV1AdditionalPrivilegeUsersPermanentPost200ResponsePrivilege], Field()] = Field(...)
     __properties = ["privileges"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

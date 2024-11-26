@@ -19,21 +19,18 @@ import json
 
 
 from typing import List, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt
 from infisicalapi_client.models.api_v1_secret_sharing_get200_response_secrets_inner import ApiV1SecretSharingGet200ResponseSecretsInner
+from typing_extensions import Annotated
 
 class ApiV1SecretSharingGet200Response(BaseModel):
     """
     ApiV1SecretSharingGet200Response
     """
-    secrets: conlist(ApiV1SecretSharingGet200ResponseSecretsInner) = Field(...)
+    secrets: Annotated[List[ApiV1SecretSharingGet200ResponseSecretsInner], Field()] = Field(...)
     total_count: Union[StrictFloat, StrictInt] = Field(default=..., alias="totalCount")
     __properties = ["secrets", "totalCount"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

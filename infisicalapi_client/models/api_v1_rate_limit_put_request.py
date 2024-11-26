@@ -19,7 +19,7 @@ import json
 
 
 from typing import Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt
 
 class ApiV1RateLimitPutRequest(BaseModel):
     """
@@ -33,11 +33,7 @@ class ApiV1RateLimitPutRequest(BaseModel):
     mfa_rate_limit: Union[StrictFloat, StrictInt] = Field(default=..., alias="mfaRateLimit")
     public_endpoint_limit: Union[StrictFloat, StrictInt] = Field(default=..., alias="publicEndpointLimit")
     __properties = ["readRateLimit", "writeRateLimit", "secretsRateLimit", "authRateLimit", "inviteUserRateLimit", "mfaRateLimit", "publicEndpointLimit"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 
 class ApiV1FoldersGet200ResponseFoldersInner(BaseModel):
     """
@@ -34,11 +34,7 @@ class ApiV1FoldersGet200ResponseFoldersInner(BaseModel):
     parent_id: Optional[StrictStr] = Field(default=None, alias="parentId")
     is_reserved: Optional[StrictBool] = Field(default=False, alias="isReserved")
     __properties = ["id", "name", "version", "createdAt", "updatedAt", "envId", "parentId", "isReserved"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

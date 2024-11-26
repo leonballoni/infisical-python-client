@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictStr
+from pydantic import ConfigDict, BaseModel, StrictStr
 
 class ApiV1OrganizationsOrganizationIdBillingDetailsPatchRequest(BaseModel):
     """
@@ -28,11 +28,7 @@ class ApiV1OrganizationsOrganizationIdBillingDetailsPatchRequest(BaseModel):
     email: Optional[StrictStr] = None
     name: Optional[StrictStr] = None
     __properties = ["email", "name"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

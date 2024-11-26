@@ -19,27 +19,25 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV2UsersMeAuthMethodsPutRequest(BaseModel):
     """
     ApiV2UsersMeAuthMethodsPutRequest
     """
-    auth_methods: conlist(StrictStr, min_items=1) = Field(default=..., alias="authMethods")
+    auth_methods: Annotated[List[StrictStr], Field(min_length=1)] = Field(default=..., alias="authMethods")
     __properties = ["authMethods"]
 
-    @validator('auth_methods')
+    @field_validator('auth_methods')
+    @classmethod
     def auth_methods_validate_enum(cls, value):
         """Validates the enum"""
         for i in value:
             if i not in ('email', 'google', 'github', 'gitlab', 'okta-saml', 'azure-saml', 'jumpcloud-saml', 'google-saml', 'keycloak-saml', 'ldap', 'oidc'):
                 raise ValueError("each list item must be one of ('email', 'google', 'github', 'gitlab', 'okta-saml', 'azure-saml', 'jumpcloud-saml', 'google-saml', 'keycloak-saml', 'ldap', 'oidc')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,21 +19,18 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictBool, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool
 from infisicalapi_client.models.api_v1_organization_organization_id_permissions_get200_response_membership import ApiV1OrganizationOrganizationIdPermissionsGet200ResponseMembership
+from typing_extensions import Annotated
 
 class ApiV1WorkspaceWorkspaceIdMembershipsPost200Response(BaseModel):
     """
     ApiV1WorkspaceWorkspaceIdMembershipsPost200Response
     """
     success: StrictBool = Field(...)
-    data: conlist(ApiV1OrganizationOrganizationIdPermissionsGet200ResponseMembership) = Field(...)
+    data: Annotated[List[ApiV1OrganizationOrganizationIdPermissionsGet200ResponseMembership], Field()] = Field(...)
     __properties = ["success", "data"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

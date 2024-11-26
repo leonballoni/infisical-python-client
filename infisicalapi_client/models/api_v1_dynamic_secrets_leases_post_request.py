@@ -19,23 +19,20 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1DynamicSecretsLeasesPostRequest(BaseModel):
     """
     ApiV1DynamicSecretsLeasesPostRequest
     """
-    dynamic_secret_name: constr(strict=True, min_length=1) = Field(default=..., alias="dynamicSecretName", description="The name of the dynamic secret.")
-    project_slug: constr(strict=True, min_length=1) = Field(default=..., alias="projectSlug", description="The slug of the project of the dynamic secret in.")
+    dynamic_secret_name: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="dynamicSecretName", description="The name of the dynamic secret.")
+    project_slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="projectSlug", description="The slug of the project of the dynamic secret in.")
     ttl: Optional[StrictStr] = Field(default=None, description="The lease lifetime ttl. If not provided the default TTL of dynamic secret will be used.")
     path: Optional[StrictStr] = Field(default='/', description="The path of the dynamic secret in.")
-    environment_slug: constr(strict=True, min_length=1) = Field(default=..., alias="environmentSlug", description="The path of the dynamic secret in.")
+    environment_slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="environmentSlug", description="The path of the dynamic secret in.")
     __properties = ["dynamicSecretName", "projectSlug", "ttl", "path", "environmentSlug"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

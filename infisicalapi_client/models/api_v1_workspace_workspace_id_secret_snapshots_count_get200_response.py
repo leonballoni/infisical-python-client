@@ -19,7 +19,7 @@ import json
 
 
 from typing import Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt
 
 class ApiV1WorkspaceWorkspaceIdSecretSnapshotsCountGet200Response(BaseModel):
     """
@@ -27,11 +27,7 @@ class ApiV1WorkspaceWorkspaceIdSecretSnapshotsCountGet200Response(BaseModel):
     """
     count: Union[StrictFloat, StrictInt] = Field(...)
     __properties = ["count"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

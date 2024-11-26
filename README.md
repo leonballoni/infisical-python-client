@@ -4,7 +4,7 @@ The Infisical SDK provides a convenient way to interact with the Infisical API.
 
 ## Requirements
 
-Python 3.7+
+Python 3.8+
 
 ## Installation
 

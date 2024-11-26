@@ -19,8 +19,9 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conint, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_auth_token_auth_identities_identity_id_post_request_access_token_trusted_ips_inner import ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner
+from typing_extensions import Annotated
 
 class ApiV1AuthAzureAuthIdentitiesIdentityIdPatchRequest(BaseModel):
     """
@@ -29,16 +30,12 @@ class ApiV1AuthAzureAuthIdentitiesIdentityIdPatchRequest(BaseModel):
     tenant_id: Optional[StrictStr] = Field(default=None, alias="tenantId", description="The new tenant ID for the Azure AD organization.")
     resource: Optional[StrictStr] = Field(default=None, description="The new resource URL for the application registered in Azure AD.")
     allowed_service_principal_ids: Optional[StrictStr] = Field(default='', alias="allowedServicePrincipalIds", description="The new comma-separated list of Azure AD service principal IDs that are allowed to authenticate with Infisical.")
-    access_token_trusted_ips: Optional[conlist(ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner, min_items=1)] = Field(default=None, alias="accessTokenTrustedIps", description="The new IPs or CIDR ranges that access tokens can be used from.")
-    access_token_ttl: Optional[conint(strict=True, le=315360000, ge=0)] = Field(default=None, alias="accessTokenTTL", description="The new lifetime for an acccess token in seconds.")
-    access_token_num_uses_limit: Optional[conint(strict=True, ge=0)] = Field(default=None, alias="accessTokenNumUsesLimit", description="The new maximum number of times that an access token can be used.")
-    access_token_max_ttl: Optional[conint(strict=True, le=315360000)] = Field(default=None, alias="accessTokenMaxTTL", description="The new maximum lifetime for an acccess token in seconds.")
+    access_token_trusted_ips: Optional[Annotated[List[ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner], Field(min_length=1)]] = Field(default=None, alias="accessTokenTrustedIps", description="The new IPs or CIDR ranges that access tokens can be used from.")
+    access_token_ttl: Optional[Annotated[int, Field(strict=True, le=315360000, ge=0)]] = Field(default=None, alias="accessTokenTTL", description="The new lifetime for an acccess token in seconds.")
+    access_token_num_uses_limit: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, alias="accessTokenNumUsesLimit", description="The new maximum number of times that an access token can be used.")
+    access_token_max_ttl: Optional[Annotated[int, Field(strict=True, le=315360000)]] = Field(default=None, alias="accessTokenMaxTTL", description="The new maximum lifetime for an acccess token in seconds.")
     __properties = ["tenantId", "resource", "allowedServicePrincipalIds", "accessTokenTrustedIps", "accessTokenTTL", "accessTokenNumUsesLimit", "accessTokenMaxTTL"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

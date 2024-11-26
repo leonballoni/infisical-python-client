@@ -19,8 +19,9 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v2_organizations_organization_id_workspaces_get200_response_workspaces_inner_environments_inner import ApiV2OrganizationsOrganizationIdWorkspacesGet200ResponseWorkspacesInnerEnvironmentsInner
+from typing_extensions import Annotated
 
 class ApiV2OrganizationsOrganizationIdWorkspacesGet200ResponseWorkspacesInner(BaseModel):
     """
@@ -30,13 +31,9 @@ class ApiV2OrganizationsOrganizationIdWorkspacesGet200ResponseWorkspacesInner(Ba
     name: StrictStr = Field(...)
     slug: StrictStr = Field(...)
     organization: StrictStr = Field(...)
-    environments: conlist(ApiV2OrganizationsOrganizationIdWorkspacesGet200ResponseWorkspacesInnerEnvironmentsInner) = Field(...)
+    environments: Annotated[List[ApiV2OrganizationsOrganizationIdWorkspacesGet200ResponseWorkspacesInnerEnvironmentsInner], Field()] = Field(...)
     __properties = ["id", "name", "slug", "organization", "environments"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

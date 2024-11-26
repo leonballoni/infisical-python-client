@@ -19,8 +19,9 @@ import json
 
 
 from typing import List, Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictFloat, StrictInt, StrictStr
 from infisicalapi_client.models.api_v2_service_token_post_request_scopes_inner import ApiV2ServiceTokenPostRequestScopesInner
+from typing_extensions import Annotated
 
 class ApiV2ServiceTokenPostRequest(BaseModel):
     """
@@ -28,26 +29,23 @@ class ApiV2ServiceTokenPostRequest(BaseModel):
     """
     name: StrictStr = Field(...)
     workspace_id: StrictStr = Field(default=..., alias="workspaceId")
-    scopes: conlist(ApiV2ServiceTokenPostRequestScopesInner, min_items=1) = Field(...)
+    scopes: Annotated[List[ApiV2ServiceTokenPostRequestScopesInner], Field(min_length=1)] = Field(...)
     encrypted_key: StrictStr = Field(default=..., alias="encryptedKey")
     iv: StrictStr = Field(...)
     tag: StrictStr = Field(...)
     expires_in: Optional[Union[StrictFloat, StrictInt]] = Field(default=..., alias="expiresIn")
-    permissions: conlist(StrictStr) = Field(...)
+    permissions: Annotated[List[StrictStr], Field()] = Field(...)
     __properties = ["name", "workspaceId", "scopes", "encryptedKey", "iv", "tag", "expiresIn", "permissions"]
 
-    @validator('permissions')
+    @field_validator('permissions')
+    @classmethod
     def permissions_validate_enum(cls, value):
         """Validates the enum"""
         for i in value:
             if i not in ('read', 'write'):
                 raise ValueError("each list item must be one of ('read', 'write')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

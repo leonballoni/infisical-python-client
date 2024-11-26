@@ -19,19 +19,16 @@ import json
 
 
 from typing import Union
-from pydantic import BaseModel, Field, confloat, conint
+from pydantic import ConfigDict, BaseModel, Field
+from typing_extensions import Annotated
 
 class ApiV1WorkspaceWorkspaceSlugVersionLimitPutRequest(BaseModel):
     """
     ApiV1WorkspaceWorkspaceSlugVersionLimitPutRequest
     """
-    pit_version_limit: Union[confloat(le=100, ge=1, strict=True), conint(le=100, ge=1, strict=True)] = Field(default=..., alias="pitVersionLimit")
+    pit_version_limit: Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100, ge=1, strict=True)]] = Field(default=..., alias="pitVersionLimit")
     __properties = ["pitVersionLimit"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

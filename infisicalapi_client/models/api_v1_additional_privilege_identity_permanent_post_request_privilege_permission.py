@@ -19,19 +19,21 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_additional_privilege_identity_permanent_post_request_privilege_permission_conditions import ApiV1AdditionalPrivilegeIdentityPermanentPostRequestPrivilegePermissionConditions
+from typing_extensions import Annotated
 
 class ApiV1AdditionalPrivilegeIdentityPermanentPostRequestPrivilegePermission(BaseModel):
     """
     The permission object for the privilege.  # noqa: E501
     """
-    actions: conlist(StrictStr, min_items=1) = Field(default=..., description="Describe what action an entity can take. Possible actions: create, edit, delete, and read")
+    actions: Annotated[List[StrictStr], Field(min_length=1)] = Field(default=..., description="Describe what action an entity can take. Possible actions: create, edit, delete, and read")
     subject: StrictStr = Field(default=..., description="The entity this permission pertains to. Possible options: secrets, environments")
     conditions: ApiV1AdditionalPrivilegeIdentityPermanentPostRequestPrivilegePermissionConditions = Field(...)
     __properties = ["actions", "subject", "conditions"]
 
-    @validator('actions')
+    @field_validator('actions')
+    @classmethod
     def actions_validate_enum(cls, value):
         """Validates the enum"""
         for i in value:
@@ -39,17 +41,14 @@ class ApiV1AdditionalPrivilegeIdentityPermanentPostRequestPrivilegePermission(Ba
                 raise ValueError("each list item must be one of ('read', 'create', 'edit', 'delete')")
         return value
 
-    @validator('subject')
+    @field_validator('subject')
+    @classmethod
     def subject_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('secrets'):
             raise ValueError("must be one of enum values ('secrets')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

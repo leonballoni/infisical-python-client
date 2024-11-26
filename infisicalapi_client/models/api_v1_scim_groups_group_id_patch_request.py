@@ -19,21 +19,18 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_scim_groups_group_id_patch_request_operations_inner import ApiV1ScimGroupsGroupIdPatchRequestOperationsInner
+from typing_extensions import Annotated
 
 class ApiV1ScimGroupsGroupIdPatchRequest(BaseModel):
     """
     ApiV1ScimGroupsGroupIdPatchRequest
     """
-    schemas: conlist(StrictStr) = Field(...)
-    operations: conlist(ApiV1ScimGroupsGroupIdPatchRequestOperationsInner) = Field(default=..., alias="Operations")
+    schemas: Annotated[List[StrictStr], Field()] = Field(...)
+    operations: Annotated[List[ApiV1ScimGroupsGroupIdPatchRequestOperationsInner], Field()] = Field(default=..., alias="Operations")
     __properties = ["schemas", "Operations"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

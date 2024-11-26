@@ -19,8 +19,9 @@ import json
 
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_audit_log_streams_id_get200_response_audit_log_stream_headers_inner import ApiV1AuditLogStreamsIdGet200ResponseAuditLogStreamHeadersInner
+from typing_extensions import Annotated
 
 class ApiV1AuditLogStreamsIdGet200ResponseAuditLogStream(BaseModel):
     """
@@ -30,13 +31,9 @@ class ApiV1AuditLogStreamsIdGet200ResponseAuditLogStream(BaseModel):
     url: StrictStr = Field(...)
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
-    headers: Optional[conlist(ApiV1AuditLogStreamsIdGet200ResponseAuditLogStreamHeadersInner)] = None
+    headers: Optional[Annotated[List[ApiV1AuditLogStreamsIdGet200ResponseAuditLogStreamHeadersInner], Field()]] = None
     __properties = ["id", "url", "createdAt", "updatedAt", "headers"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

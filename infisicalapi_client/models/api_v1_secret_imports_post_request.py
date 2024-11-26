@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_secret_imports_post_request_import import ApiV1SecretImportsPostRequestImport
 
 class ApiV1SecretImportsPostRequest(BaseModel):
@@ -32,11 +32,7 @@ class ApiV1SecretImportsPostRequest(BaseModel):
     var_import: ApiV1SecretImportsPostRequestImport = Field(default=..., alias="import")
     is_replication: Optional[StrictBool] = Field(default=False, alias="isReplication", description="When true, secrets from the source will be automatically sent to the destination. If approval policies exist at the destination, the secrets will be sent as approval requests instead of being applied immediately.")
     __properties = ["workspaceId", "environment", "path", "import", "isReplication"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

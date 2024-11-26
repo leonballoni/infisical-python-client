@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_organization_admin_projects_get200_response_projects_inner import ApiV1OrganizationAdminProjectsGet200ResponseProjectsInner
 
 class ApiV1WorkspaceWorkspaceIdNamePost200Response(BaseModel):
@@ -29,11 +29,7 @@ class ApiV1WorkspaceWorkspaceIdNamePost200Response(BaseModel):
     message: StrictStr = Field(...)
     workspace: ApiV1OrganizationAdminProjectsGet200ResponseProjectsInner = Field(...)
     __properties = ["message", "workspace"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

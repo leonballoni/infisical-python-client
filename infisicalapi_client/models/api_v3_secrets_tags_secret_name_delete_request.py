@@ -19,7 +19,8 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV3SecretsTagsSecretNameDeleteRequest(BaseModel):
     """
@@ -29,10 +30,11 @@ class ApiV3SecretsTagsSecretNameDeleteRequest(BaseModel):
     environment: StrictStr = Field(default=..., description="The slug of the environment where the secret is located")
     secret_path: Optional[StrictStr] = Field(default='/', alias="secretPath", description="The path of the secret to detach tags from.")
     type: Optional[StrictStr] = Field(default='shared', description="The type of the secret to attach tags to. (shared/personal)")
-    tag_slugs: conlist(StrictStr, min_items=1) = Field(default=..., alias="tagSlugs", description="An array of existing tag slugs to detach from the secret.")
+    tag_slugs: Annotated[List[StrictStr], Field(min_length=1)] = Field(default=..., alias="tagSlugs", description="An array of existing tag slugs to detach from the secret.")
     __properties = ["projectSlug", "environment", "secretPath", "type", "tagSlugs"]
 
-    @validator('type')
+    @field_validator('type')
+    @classmethod
     def type_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -41,11 +43,7 @@ class ApiV3SecretsTagsSecretNameDeleteRequest(BaseModel):
         if value not in ('shared', 'personal'):
             raise ValueError("must be one of enum values ('shared', 'personal')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

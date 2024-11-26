@@ -19,29 +19,26 @@ import json
 
 
 from typing import Dict, List, Optional
-from pydantic import BaseModel, Field, StrictStr, conint, conlist, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_auth_token_auth_identities_identity_id_post_request_access_token_trusted_ips_inner import ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner
+from typing_extensions import Annotated
 
 class ApiV1AuthOidcAuthIdentitiesIdentityIdPatchRequest(BaseModel):
     """
     ApiV1AuthOidcAuthIdentitiesIdentityIdPatchRequest
     """
-    oidc_discovery_url: Optional[constr(strict=True, min_length=1)] = Field(default=None, alias="oidcDiscoveryUrl", description="The new URL used to retrieve the OpenID Connect configuration from the identity provider.")
+    oidc_discovery_url: Optional[Annotated[str, StringConstraints(strict=True, min_length=1)]] = Field(default=None, alias="oidcDiscoveryUrl", description="The new URL used to retrieve the OpenID Connect configuration from the identity provider.")
     ca_cert: Optional[StrictStr] = Field(default='', alias="caCert", description="The new PEM-encoded CA cert for establishing secure communication with the Identity Provider endpoints.")
-    bound_issuer: Optional[constr(strict=True, min_length=1)] = Field(default=None, alias="boundIssuer", description="The new unique identifier of the identity provider issuing the JWT.")
+    bound_issuer: Optional[Annotated[str, StringConstraints(strict=True, min_length=1)]] = Field(default=None, alias="boundIssuer", description="The new unique identifier of the identity provider issuing the JWT.")
     bound_audiences: Optional[StrictStr] = Field(default='', alias="boundAudiences", description="The new list of intended recipients.")
     bound_claims: Optional[Dict[str, StrictStr]] = Field(default=None, alias="boundClaims", description="The new attributes that should be present in the JWT for it to be valid.")
     bound_subject: Optional[StrictStr] = Field(default='', alias="boundSubject", description="The new expected principal that is the subject of the JWT.")
-    access_token_trusted_ips: Optional[conlist(ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner, min_items=1)] = Field(default=None, alias="accessTokenTrustedIps", description="The new IPs or CIDR ranges that access tokens can be used from.")
-    access_token_ttl: Optional[conint(strict=True, le=315360000, ge=1)] = Field(default=2592000, alias="accessTokenTTL", description="The new lifetime for an acccess token in seconds.")
-    access_token_max_ttl: Optional[conint(strict=True, le=315360000)] = Field(default=2592000, alias="accessTokenMaxTTL", description="The new maximum lifetime for an acccess token in seconds.")
-    access_token_num_uses_limit: Optional[conint(strict=True, ge=0)] = Field(default=0, alias="accessTokenNumUsesLimit", description="The new maximum number of times that an access token can be used.")
+    access_token_trusted_ips: Optional[Annotated[List[ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner], Field(min_length=1)]] = Field(default=None, alias="accessTokenTrustedIps", description="The new IPs or CIDR ranges that access tokens can be used from.")
+    access_token_ttl: Optional[Annotated[int, Field(strict=True, le=315360000, ge=1)]] = Field(default=2592000, alias="accessTokenTTL", description="The new lifetime for an acccess token in seconds.")
+    access_token_max_ttl: Optional[Annotated[int, Field(strict=True, le=315360000)]] = Field(default=2592000, alias="accessTokenMaxTTL", description="The new maximum lifetime for an acccess token in seconds.")
+    access_token_num_uses_limit: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, alias="accessTokenNumUsesLimit", description="The new maximum number of times that an access token can be used.")
     __properties = ["oidcDiscoveryUrl", "caCert", "boundIssuer", "boundAudiences", "boundClaims", "boundSubject", "accessTokenTrustedIps", "accessTokenTTL", "accessTokenMaxTTL", "accessTokenNumUsesLimit"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

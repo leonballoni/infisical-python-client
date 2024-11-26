@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Optional
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_dynamic_secrets_get200_response_dynamic_secrets_inner import ApiV1DynamicSecretsGet200ResponseDynamicSecretsInner
 from infisicalapi_client.models.api_v1_dynamic_secrets_name_leases_get200_response_leases_inner import ApiV1DynamicSecretsNameLeasesGet200ResponseLeasesInner
 
@@ -31,11 +31,7 @@ class ApiV1DynamicSecretsLeasesPost200Response(BaseModel):
     dynamic_secret: ApiV1DynamicSecretsGet200ResponseDynamicSecretsInner = Field(default=..., alias="dynamicSecret")
     data: Optional[Any] = None
     __properties = ["lease", "dynamicSecret", "data"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

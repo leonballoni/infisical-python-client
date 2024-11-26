@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_secret_secret_id_secret_versions_get200_response_secret_versions_inner import ApiV1SecretSecretIdSecretVersionsGet200ResponseSecretVersionsInner
 
 class ApiV3SecretsRawSecretNamePost200ResponseAnyOf(BaseModel):
@@ -28,11 +28,7 @@ class ApiV3SecretsRawSecretNamePost200ResponseAnyOf(BaseModel):
     """
     secret: ApiV1SecretSecretIdSecretVersionsGet200ResponseSecretVersionsInner = Field(...)
     __properties = ["secret"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

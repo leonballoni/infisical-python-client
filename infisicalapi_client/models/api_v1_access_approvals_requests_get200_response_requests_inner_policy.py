@@ -19,7 +19,8 @@ import json
 
 
 from typing import List, Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1AccessApprovalsRequestsGet200ResponseRequestsInnerPolicy(BaseModel):
     """
@@ -28,16 +29,12 @@ class ApiV1AccessApprovalsRequestsGet200ResponseRequestsInnerPolicy(BaseModel):
     id: StrictStr = Field(...)
     name: StrictStr = Field(...)
     approvals: Union[StrictFloat, StrictInt] = Field(...)
-    approvers: conlist(StrictStr) = Field(...)
+    approvers: Annotated[List[StrictStr], Field()] = Field(...)
     secret_path: Optional[StrictStr] = Field(default=None, alias="secretPath")
     env_id: StrictStr = Field(default=..., alias="envId")
     enforcement_level: StrictStr = Field(default=..., alias="enforcementLevel")
     __properties = ["id", "name", "approvals", "approvers", "secretPath", "envId", "enforcementLevel"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,7 +19,8 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictBool, StrictStr
+from typing_extensions import Annotated
 
 class ApiV3SecretsBatchPatchRequestSecretsInner(BaseModel):
     """
@@ -37,10 +38,11 @@ class ApiV3SecretsBatchPatchRequestSecretsInner(BaseModel):
     secret_comment_iv: Optional[StrictStr] = Field(default=None, alias="secretCommentIV")
     secret_comment_tag: Optional[StrictStr] = Field(default=None, alias="secretCommentTag")
     skip_multiline_encoding: Optional[StrictBool] = Field(default=None, alias="skipMultilineEncoding")
-    tags: Optional[conlist(StrictStr)] = None
+    tags: Optional[Annotated[List[StrictStr], Field()]] = None
     __properties = ["secretName", "type", "secretValueCiphertext", "secretValueIV", "secretValueTag", "secretKeyCiphertext", "secretKeyIV", "secretKeyTag", "secretCommentCiphertext", "secretCommentIV", "secretCommentTag", "skipMultilineEncoding", "tags"]
 
-    @validator('type')
+    @field_validator('type')
+    @classmethod
     def type_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -49,11 +51,7 @@ class ApiV3SecretsBatchPatchRequestSecretsInner(BaseModel):
         if value not in ('shared', 'personal'):
             raise ValueError("must be one of enum values ('shared', 'personal')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

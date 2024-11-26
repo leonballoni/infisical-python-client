@@ -19,23 +19,25 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictStr, confloat, conint, constr, validator
+from pydantic import field_validator, StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1SecretSharingPostRequest(BaseModel):
     """
     ApiV1SecretSharingPostRequest
     """
-    name: Optional[constr(strict=True, max_length=50)] = None
+    name: Optional[Annotated[str, StringConstraints(strict=True, max_length=50)]] = None
     encrypted_value: StrictStr = Field(default=..., alias="encryptedValue")
     hashed_hex: StrictStr = Field(default=..., alias="hashedHex")
     iv: StrictStr = Field(...)
     tag: StrictStr = Field(...)
     expires_at: StrictStr = Field(default=..., alias="expiresAt")
-    expires_after_views: Optional[Union[confloat(ge=1, strict=True), conint(ge=1, strict=True)]] = Field(default=None, alias="expiresAfterViews")
+    expires_after_views: Optional[Union[Annotated[float, Field(ge=1, strict=True)], Annotated[int, Field(ge=1, strict=True)]]] = Field(default=None, alias="expiresAfterViews")
     access_type: Optional[StrictStr] = Field(default='organization', alias="accessType")
     __properties = ["name", "encryptedValue", "hashedHex", "iv", "tag", "expiresAt", "expiresAfterViews", "accessType"]
 
-    @validator('access_type')
+    @field_validator('access_type')
+    @classmethod
     def access_type_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -44,11 +46,7 @@ class ApiV1SecretSharingPostRequest(BaseModel):
         if value not in ('anyone', 'organization'):
             raise ValueError("must be one of enum values ('anyone', 'organization')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

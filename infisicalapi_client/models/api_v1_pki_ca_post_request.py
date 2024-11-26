@@ -19,7 +19,8 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictStr, confloat, conint, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1PkiCaPostRequest(BaseModel):
     """
@@ -36,18 +37,20 @@ class ApiV1PkiCaPostRequest(BaseModel):
     locality: StrictStr = Field(default=..., description="The locality name for the CA")
     not_before: Optional[StrictStr] = Field(default=None, alias="notBefore", description="The date and time when the CA becomes valid in YYYY-MM-DDTHH:mm:ss.sssZ format")
     not_after: Optional[StrictStr] = Field(default=None, alias="notAfter", description="The date and time when the CA expires in YYYY-MM-DDTHH:mm:ss.sssZ format")
-    max_path_length: Optional[Union[confloat(ge=-1, strict=True), conint(ge=-1, strict=True)]] = Field(default=-1, alias="maxPathLength", description="The maximum number of intermediate CAs that may follow this CA in the certificate / CA chain. A maxPathLength of -1 implies no path limit on the chain.")
+    max_path_length: Optional[Union[Annotated[float, Field(ge=-1, strict=True)], Annotated[int, Field(ge=-1, strict=True)]]] = Field(default=-1, alias="maxPathLength", description="The maximum number of intermediate CAs that may follow this CA in the certificate / CA chain. A maxPathLength of -1 implies no path limit on the chain.")
     key_algorithm: Optional[StrictStr] = Field(default='RSA_2048', alias="keyAlgorithm", description="The type of public key algorithm and size, in bits, of the key pair for the CA; when you create an intermediate CA, you must use a key algorithm supported by the parent CA.")
     __properties = ["projectSlug", "type", "friendlyName", "commonName", "organization", "ou", "country", "province", "locality", "notBefore", "notAfter", "maxPathLength", "keyAlgorithm"]
 
-    @validator('type')
+    @field_validator('type')
+    @classmethod
     def type_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('root', 'intermediate'):
             raise ValueError("must be one of enum values ('root', 'intermediate')")
         return value
 
-    @validator('key_algorithm')
+    @field_validator('key_algorithm')
+    @classmethod
     def key_algorithm_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -56,11 +59,7 @@ class ApiV1PkiCaPostRequest(BaseModel):
         if value not in ('RSA_2048', 'RSA_4096', 'EC_prime256v1', 'EC_secp384r1'):
             raise ValueError("must be one of enum values ('RSA_2048', 'RSA_4096', 'EC_prime256v1', 'EC_secp384r1')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

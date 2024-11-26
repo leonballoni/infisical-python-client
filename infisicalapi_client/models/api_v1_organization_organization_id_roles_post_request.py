@@ -19,22 +19,19 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1OrganizationOrganizationIdRolesPostRequest(BaseModel):
     """
     ApiV1OrganizationOrganizationIdRolesPostRequest
     """
-    slug: constr(strict=True, min_length=1) = Field(...)
+    slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(...)
     name: StrictStr = Field(...)
     description: Optional[StrictStr] = None
-    permissions: conlist(StrictStr) = Field(...)
+    permissions: Annotated[List[StrictStr], Field()] = Field(...)
     __properties = ["slug", "name", "description", "permissions"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

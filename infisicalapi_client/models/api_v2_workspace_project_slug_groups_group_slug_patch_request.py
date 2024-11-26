@@ -19,20 +19,17 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, conlist
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_workspace_workspace_id_memberships_membership_id_patch_request_roles_inner import ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInner
+from typing_extensions import Annotated
 
 class ApiV2WorkspaceProjectSlugGroupsGroupSlugPatchRequest(BaseModel):
     """
     ApiV2WorkspaceProjectSlugGroupsGroupSlugPatchRequest
     """
-    roles: conlist(ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInner, min_items=1) = Field(default=..., description="A list of roles to update the group to.")
+    roles: Annotated[List[ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInner], Field(min_length=1)] = Field(default=..., description="A list of roles to update the group to.")
     __properties = ["roles"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
