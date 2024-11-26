@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1WorkspaceProjectSlugRolesGet200ResponseRolesInner(BaseModel):
     """
@@ -33,11 +33,7 @@ class ApiV1WorkspaceProjectSlugRolesGet200ResponseRolesInner(BaseModel):
     updated_at: datetime = Field(default=..., alias="updatedAt")
     project_id: StrictStr = Field(default=..., alias="projectId")
     __properties = ["id", "name", "description", "slug", "createdAt", "updatedAt", "projectId"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,19 +19,16 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1UserMeProjectFavoritesGet200Response(BaseModel):
     """
     ApiV1UserMeProjectFavoritesGet200Response
     """
-    project_favorites: conlist(StrictStr) = Field(default=..., alias="projectFavorites")
+    project_favorites: Annotated[List[StrictStr], Field()] = Field(default=..., alias="projectFavorites")
     __properties = ["projectFavorites"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

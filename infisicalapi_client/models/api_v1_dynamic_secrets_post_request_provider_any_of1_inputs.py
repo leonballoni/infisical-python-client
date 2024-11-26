@@ -19,7 +19,8 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictFloat, StrictInt, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1DynamicSecretsPostRequestProviderAnyOf1Inputs(BaseModel):
     """
@@ -27,7 +28,7 @@ class ApiV1DynamicSecretsPostRequestProviderAnyOf1Inputs(BaseModel):
     """
     host: StrictStr = Field(...)
     port: Union[StrictFloat, StrictInt] = Field(...)
-    local_data_center: constr(strict=True, min_length=1) = Field(default=..., alias="localDataCenter")
+    local_data_center: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="localDataCenter")
     keyspace: Optional[StrictStr] = None
     username: StrictStr = Field(...)
     password: StrictStr = Field(...)
@@ -36,11 +37,7 @@ class ApiV1DynamicSecretsPostRequestProviderAnyOf1Inputs(BaseModel):
     renew_statement: Optional[StrictStr] = Field(default=None, alias="renewStatement")
     ca: Optional[StrictStr] = None
     __properties = ["host", "port", "localDataCenter", "keyspace", "username", "password", "creationStatement", "revocationStatement", "renewStatement", "ca"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

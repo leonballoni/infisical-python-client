@@ -19,7 +19,8 @@ import json
 
 
 from typing import Dict, List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
+from typing_extensions import Annotated
 
 class ApiV3SecretsBatchRawPostRequestSecretsInner(BaseModel):
     """
@@ -30,13 +31,9 @@ class ApiV3SecretsBatchRawPostRequestSecretsInner(BaseModel):
     secret_comment: Optional[StrictStr] = Field(default='', alias="secretComment", description="Attach a comment to the secret.")
     skip_multiline_encoding: Optional[StrictBool] = Field(default=None, alias="skipMultilineEncoding", description="Skip multiline encoding for the secret value.")
     metadata: Optional[Dict[str, StrictStr]] = None
-    tag_ids: Optional[conlist(StrictStr)] = Field(default=None, alias="tagIds", description="The ID of the tags to be attached to the created secret.")
+    tag_ids: Optional[Annotated[List[StrictStr], Field()]] = Field(default=None, alias="tagIds", description="The ID of the tags to be attached to the created secret.")
     __properties = ["secretKey", "secretValue", "secretComment", "skipMultilineEncoding", "metadata", "tagIds"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

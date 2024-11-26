@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 
 class ApiV1AuthUniversalAuthIdentitiesIdentityIdClientSecretsGet200ResponseClientSecretDataInner(BaseModel):
     """
@@ -36,11 +36,7 @@ class ApiV1AuthUniversalAuthIdentitiesIdentityIdClientSecretsGet200ResponseClien
     identity_uaid: StrictStr = Field(default=..., alias="identityUAId")
     is_client_secret_revoked: Optional[StrictBool] = Field(default=False, alias="isClientSecretRevoked")
     __properties = ["id", "createdAt", "updatedAt", "description", "clientSecretPrefix", "clientSecretNumUses", "clientSecretNumUsesLimit", "clientSecretTTL", "identityUAId", "isClientSecretRevoked"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

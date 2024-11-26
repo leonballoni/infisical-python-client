@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1SecretScanningLinkInstallationPost200Response(BaseModel):
     """
@@ -32,11 +32,7 @@ class ApiV1SecretScanningLinkInstallationPost200Response(BaseModel):
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
     __properties = ["id", "installationId", "userId", "orgId", "createdAt", "updatedAt"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

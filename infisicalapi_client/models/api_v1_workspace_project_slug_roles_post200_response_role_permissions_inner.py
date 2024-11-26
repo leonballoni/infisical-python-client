@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_workspace_project_slug_roles_post200_response_role_permissions_inner_conditions import ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInnerConditions
 from infisicalapi_client.models.api_v1_workspace_project_slug_roles_post200_response_role_permissions_inner_subject import ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInnerSubject
 
@@ -31,11 +31,7 @@ class ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInner(BaseMode
     action: ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInnerSubject = Field(...)
     conditions: Optional[ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInnerConditions] = None
     __properties = ["subject", "action", "conditions"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

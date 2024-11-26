@@ -19,20 +19,17 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, conlist
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_scim_scim_tokens_get200_response_scim_tokens_inner import ApiV1ScimScimTokensGet200ResponseScimTokensInner
+from typing_extensions import Annotated
 
 class ApiV1ScimScimTokensGet200Response(BaseModel):
     """
     ApiV1ScimScimTokensGet200Response
     """
-    scim_tokens: conlist(ApiV1ScimScimTokensGet200ResponseScimTokensInner) = Field(default=..., alias="scimTokens")
+    scim_tokens: Annotated[List[ApiV1ScimScimTokensGet200ResponseScimTokensInner], Field()] = Field(default=..., alias="scimTokens")
     __properties = ["scimTokens"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

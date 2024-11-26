@@ -19,29 +19,26 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conint, conlist, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_auth_token_auth_identities_identity_id_post_request_access_token_trusted_ips_inner import ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner
+from typing_extensions import Annotated
 
 class ApiV1AuthKubernetesAuthIdentitiesIdentityIdPostRequest(BaseModel):
     """
     ApiV1AuthKubernetesAuthIdentitiesIdentityIdPostRequest
     """
-    kubernetes_host: constr(strict=True, min_length=1) = Field(default=..., alias="kubernetesHost", description="The host string, host:port pair, or URL to the base of the Kubernetes API server.")
+    kubernetes_host: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="kubernetesHost", description="The host string, host:port pair, or URL to the base of the Kubernetes API server.")
     ca_cert: Optional[StrictStr] = Field(default='', alias="caCert", description="The PEM-encoded CA cert for the Kubernetes API server.")
-    token_reviewer_jwt: constr(strict=True, min_length=1) = Field(default=..., alias="tokenReviewerJwt", description="The long-lived service account JWT token for Infisical to access the TokenReview API to validate other service account JWT tokens submitted by applications/pods.")
+    token_reviewer_jwt: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="tokenReviewerJwt", description="The long-lived service account JWT token for Infisical to access the TokenReview API to validate other service account JWT tokens submitted by applications/pods.")
     allowed_namespaces: StrictStr = Field(default=..., alias="allowedNamespaces", description="The comma-separated list of trusted namespaces that service accounts must belong to authenticate with Infisical.")
     allowed_names: StrictStr = Field(default=..., alias="allowedNames", description="The comma-separated list of trusted service account names that can authenticate with Infisical.")
     allowed_audience: StrictStr = Field(default=..., alias="allowedAudience", description="The optional audience claim that the service account JWT token must have to authenticate with Infisical.")
-    access_token_trusted_ips: Optional[conlist(ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner, min_items=1)] = Field(default=None, alias="accessTokenTrustedIps", description="The IPs or CIDR ranges that access tokens can be used from.")
-    access_token_ttl: Optional[conint(strict=True, le=315360000, ge=1)] = Field(default=2592000, alias="accessTokenTTL", description="The lifetime for an acccess token in seconds.")
-    access_token_max_ttl: Optional[conint(strict=True, le=315360000)] = Field(default=2592000, alias="accessTokenMaxTTL", description="The maximum lifetime for an acccess token in seconds.")
-    access_token_num_uses_limit: Optional[conint(strict=True, ge=0)] = Field(default=0, alias="accessTokenNumUsesLimit", description="The maximum number of times that an access token can be used.")
+    access_token_trusted_ips: Optional[Annotated[List[ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner], Field(min_length=1)]] = Field(default=None, alias="accessTokenTrustedIps", description="The IPs or CIDR ranges that access tokens can be used from.")
+    access_token_ttl: Optional[Annotated[int, Field(strict=True, le=315360000, ge=1)]] = Field(default=2592000, alias="accessTokenTTL", description="The lifetime for an acccess token in seconds.")
+    access_token_max_ttl: Optional[Annotated[int, Field(strict=True, le=315360000)]] = Field(default=2592000, alias="accessTokenMaxTTL", description="The maximum lifetime for an acccess token in seconds.")
+    access_token_num_uses_limit: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, alias="accessTokenNumUsesLimit", description="The maximum number of times that an access token can be used.")
     __properties = ["kubernetesHost", "caCert", "tokenReviewerJwt", "allowedNamespaces", "allowedNames", "allowedAudience", "accessTokenTrustedIps", "accessTokenTTL", "accessTokenMaxTTL", "accessTokenNumUsesLimit"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

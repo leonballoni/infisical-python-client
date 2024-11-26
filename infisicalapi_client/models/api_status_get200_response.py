@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiStatusGet200Response(BaseModel):
     """
@@ -34,17 +34,14 @@ class ApiStatusGet200Response(BaseModel):
     saml_default_org_slug: Optional[StrictStr] = Field(default=None, alias="samlDefaultOrgSlug")
     __properties = ["date", "message", "emailConfigured", "inviteOnlySignup", "redisConfigured", "secretScanningConfigured", "samlDefaultOrgSlug"]
 
-    @validator('message')
+    @field_validator('message')
+    @classmethod
     def message_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('Ok'):
             raise ValueError("must be one of enum values ('Ok')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

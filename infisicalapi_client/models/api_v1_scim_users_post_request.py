@@ -19,25 +19,22 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_scim_users_get200_response_resources_inner_name import ApiV1ScimUsersGet200ResponseResourcesInnerName
 from infisicalapi_client.models.api_v1_scim_users_post_request_emails_inner import ApiV1ScimUsersPostRequestEmailsInner
+from typing_extensions import Annotated
 
 class ApiV1ScimUsersPostRequest(BaseModel):
     """
     ApiV1ScimUsersPostRequest
     """
-    schemas: conlist(StrictStr) = Field(...)
+    schemas: Annotated[List[StrictStr], Field()] = Field(...)
     user_name: StrictStr = Field(default=..., alias="userName")
     name: ApiV1ScimUsersGet200ResponseResourcesInnerName = Field(...)
-    emails: Optional[conlist(ApiV1ScimUsersPostRequestEmailsInner)] = None
+    emails: Optional[Annotated[List[ApiV1ScimUsersPostRequestEmailsInner], Field()]] = None
     active: StrictBool = Field(...)
     __properties = ["schemas", "userName", "name", "emails", "active"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -18,12 +18,12 @@ import json
 import pprint
 import re  # noqa: F401
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from typing import Literal, Optional
+from pydantic import field_validator, ConfigDict, BaseModel, StrictStr, ValidationError
 from infisicalapi_client.models.api_v3_secrets_raw_secret_name_post200_response_any_of import ApiV3SecretsRawSecretNamePost200ResponseAnyOf
 from infisicalapi_client.models.api_v3_secrets_raw_secret_name_post200_response_any_of1 import ApiV3SecretsRawSecretNamePost200ResponseAnyOf1
 from typing import Union, Any, List, TYPE_CHECKING
-from pydantic import StrictStr, Field
+from pydantic import StrictStr
 
 APIV3SECRETSRAWSECRETNAMEPOST200RESPONSE_ANY_OF_SCHEMAS = ["ApiV3SecretsRawSecretNamePost200ResponseAnyOf", "ApiV3SecretsRawSecretNamePost200ResponseAnyOf1"]
 
@@ -39,11 +39,9 @@ class ApiV3SecretsRawSecretNamePost200Response(BaseModel):
     if TYPE_CHECKING:
         actual_instance: Union[ApiV3SecretsRawSecretNamePost200ResponseAnyOf, ApiV3SecretsRawSecretNamePost200ResponseAnyOf1]
     else:
-        actual_instance: Any
-    any_of_schemas: List[str] = Field(APIV3SECRETSRAWSECRETNAMEPOST200RESPONSE_ANY_OF_SCHEMAS, const=True)
-
-    class Config:
-        validate_assignment = True
+        actual_instance: Any = None
+    any_of_schemas: Literal[APIV3SECRETSRAWSECRETNAMEPOST200RESPONSE_ANY_OF_SCHEMAS] = APIV3SECRETSRAWSECRETNAMEPOST200RESPONSE_ANY_OF_SCHEMAS
+    model_config = ConfigDict(validate_assignment=True)
 
     def __init__(self, *args, **kwargs) -> None:
         if args:
@@ -55,7 +53,8 @@ class ApiV3SecretsRawSecretNamePost200Response(BaseModel):
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
+    @classmethod
     def actual_instance_must_validate_anyof(cls, v):
         instance = ApiV3SecretsRawSecretNamePost200Response.construct()
         error_messages = []

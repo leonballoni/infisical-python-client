@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt, StrictStr
 
 class ApiV1DynamicSecretsGet200ResponseDynamicSecretsInner(BaseModel):
     """
@@ -37,11 +37,7 @@ class ApiV1DynamicSecretsGet200ResponseDynamicSecretsInner(BaseModel):
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
     __properties = ["id", "name", "version", "type", "defaultTTL", "maxTTL", "folderId", "status", "statusDetails", "createdAt", "updatedAt"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

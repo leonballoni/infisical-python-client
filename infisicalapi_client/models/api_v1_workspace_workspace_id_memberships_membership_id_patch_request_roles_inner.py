@@ -18,12 +18,12 @@ import json
 import pprint
 import re  # noqa: F401
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+from typing import Literal, Optional
+from pydantic import field_validator, ConfigDict, BaseModel, StrictStr, ValidationError
 from infisicalapi_client.models.api_v1_workspace_workspace_id_memberships_membership_id_patch_request_roles_inner_any_of import ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInnerAnyOf
 from infisicalapi_client.models.api_v1_workspace_workspace_id_memberships_membership_id_patch_request_roles_inner_any_of1 import ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInnerAnyOf1
 from typing import Union, Any, List, TYPE_CHECKING
-from pydantic import StrictStr, Field
+from pydantic import StrictStr
 
 APIV1WORKSPACEWORKSPACEIDMEMBERSHIPSMEMBERSHIPIDPATCHREQUESTROLESINNER_ANY_OF_SCHEMAS = ["ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInnerAnyOf", "ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInnerAnyOf1"]
 
@@ -39,11 +39,9 @@ class ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInner(Bas
     if TYPE_CHECKING:
         actual_instance: Union[ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInnerAnyOf, ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInnerAnyOf1]
     else:
-        actual_instance: Any
-    any_of_schemas: List[str] = Field(APIV1WORKSPACEWORKSPACEIDMEMBERSHIPSMEMBERSHIPIDPATCHREQUESTROLESINNER_ANY_OF_SCHEMAS, const=True)
-
-    class Config:
-        validate_assignment = True
+        actual_instance: Any = None
+    any_of_schemas: Literal[APIV1WORKSPACEWORKSPACEIDMEMBERSHIPSMEMBERSHIPIDPATCHREQUESTROLESINNER_ANY_OF_SCHEMAS] = APIV1WORKSPACEWORKSPACEIDMEMBERSHIPSMEMBERSHIPIDPATCHREQUESTROLESINNER_ANY_OF_SCHEMAS
+    model_config = ConfigDict(validate_assignment=True)
 
     def __init__(self, *args, **kwargs) -> None:
         if args:
@@ -55,7 +53,8 @@ class ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInner(Bas
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
+    @classmethod
     def actual_instance_must_validate_anyof(cls, v):
         instance = ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInner.construct()
         error_messages = []

@@ -19,20 +19,17 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1IdentitiesIdentityIdPatchRequest(BaseModel):
     """
     ApiV1IdentitiesIdentityIdPatchRequest
     """
     name: Optional[StrictStr] = Field(default=None, description="The new name of the identity.")
-    role: Optional[constr(strict=True, min_length=1)] = Field(default=None, description="The new role of the identity.")
+    role: Optional[Annotated[str, StringConstraints(strict=True, min_length=1)]] = Field(default=None, description="The new role of the identity.")
     __properties = ["name", "role"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

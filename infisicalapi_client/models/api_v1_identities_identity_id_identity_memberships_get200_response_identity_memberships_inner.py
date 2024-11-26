@@ -19,10 +19,11 @@ import json
 
 from datetime import datetime
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_identities_get200_response_identities_inner_identity import ApiV1IdentitiesGet200ResponseIdentitiesInnerIdentity
 from infisicalapi_client.models.api_v1_workspace_workspace_id_users_get200_response_users_inner_project import ApiV1WorkspaceWorkspaceIdUsersGet200ResponseUsersInnerProject
 from infisicalapi_client.models.api_v1_workspace_workspace_id_users_get200_response_users_inner_roles_inner import ApiV1WorkspaceWorkspaceIdUsersGet200ResponseUsersInnerRolesInner
+from typing_extensions import Annotated
 
 class ApiV1IdentitiesIdentityIdIdentityMembershipsGet200ResponseIdentityMembershipsInner(BaseModel):
     """
@@ -32,15 +33,11 @@ class ApiV1IdentitiesIdentityIdIdentityMembershipsGet200ResponseIdentityMembersh
     identity_id: StrictStr = Field(default=..., alias="identityId")
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
-    roles: conlist(ApiV1WorkspaceWorkspaceIdUsersGet200ResponseUsersInnerRolesInner) = Field(...)
+    roles: Annotated[List[ApiV1WorkspaceWorkspaceIdUsersGet200ResponseUsersInnerRolesInner], Field()] = Field(...)
     identity: ApiV1IdentitiesGet200ResponseIdentitiesInnerIdentity = Field(...)
     project: ApiV1WorkspaceWorkspaceIdUsersGet200ResponseUsersInnerProject = Field(...)
     __properties = ["id", "identityId", "createdAt", "updatedAt", "roles", "identity", "project"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

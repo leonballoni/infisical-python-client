@@ -19,8 +19,9 @@ import json
 
 from datetime import datetime
 from typing import List, Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 from infisicalapi_client.models.api_v1_secret_imports_get200_response_secret_imports_inner_import_env import ApiV1SecretImportsGet200ResponseSecretImportsInnerImportEnv
+from typing_extensions import Annotated
 
 class ApiV1WorkspaceGet200ResponseWorkspacesInner(BaseModel):
     """
@@ -39,13 +40,9 @@ class ApiV1WorkspaceGet200ResponseWorkspacesInner(BaseModel):
     kms_certificate_key_id: Optional[StrictStr] = Field(default=None, alias="kmsCertificateKeyId")
     audit_logs_retention_days: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="auditLogsRetentionDays")
     id: StrictStr = Field(default=..., alias="_id")
-    environments: conlist(ApiV1SecretImportsGet200ResponseSecretImportsInnerImportEnv) = Field(...)
+    environments: Annotated[List[ApiV1SecretImportsGet200ResponseSecretImportsInnerImportEnv], Field()] = Field(...)
     __properties = ["id", "name", "slug", "autoCapitalization", "orgId", "createdAt", "updatedAt", "version", "upgradeStatus", "pitVersionLimit", "kmsCertificateKeyId", "auditLogsRetentionDays", "_id", "environments"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

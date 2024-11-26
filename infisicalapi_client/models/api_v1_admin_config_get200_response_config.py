@@ -19,7 +19,8 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1AdminConfigGet200ResponseConfig(BaseModel):
     """
@@ -34,16 +35,12 @@ class ApiV1AdminConfigGet200ResponseConfig(BaseModel):
     trust_ldap_emails: Optional[StrictBool] = Field(default=False, alias="trustLdapEmails")
     trust_oidc_emails: Optional[StrictBool] = Field(default=False, alias="trustOidcEmails")
     default_auth_org_id: Optional[StrictStr] = Field(default=None, alias="defaultAuthOrgId")
-    enabled_login_methods: Optional[conlist(StrictStr)] = Field(default=None, alias="enabledLoginMethods")
+    enabled_login_methods: Optional[Annotated[List[StrictStr], Field()]] = Field(default=None, alias="enabledLoginMethods")
     is_migration_mode_on: StrictBool = Field(default=..., alias="isMigrationModeOn")
     default_auth_org_slug: Optional[StrictStr] = Field(default=..., alias="defaultAuthOrgSlug")
     is_secret_scanning_disabled: StrictBool = Field(default=..., alias="isSecretScanningDisabled")
     __properties = ["id", "initialized", "allowSignUp", "allowedSignUpDomain", "instanceId", "trustSamlEmails", "trustLdapEmails", "trustOidcEmails", "defaultAuthOrgId", "enabledLoginMethods", "isMigrationModeOn", "defaultAuthOrgSlug", "isSecretScanningDisabled"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

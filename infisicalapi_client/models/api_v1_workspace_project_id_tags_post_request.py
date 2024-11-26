@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1WorkspaceProjectIdTagsPostRequest(BaseModel):
     """
@@ -28,11 +28,7 @@ class ApiV1WorkspaceProjectIdTagsPostRequest(BaseModel):
     slug: StrictStr = Field(default=..., description="The slug of the tag to create.")
     color: StrictStr = Field(default=..., description="The color of the tag to create.")
     __properties = ["slug", "color"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

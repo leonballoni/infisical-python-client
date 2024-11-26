@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, StrictFloat, StrictInt
+from pydantic import ConfigDict, BaseModel, StrictFloat, StrictInt
 
 class ApiV1SecretApprovalRequestsCountGet200ResponseApprovals(BaseModel):
     """
@@ -28,11 +28,7 @@ class ApiV1SecretApprovalRequestsCountGet200ResponseApprovals(BaseModel):
     open: Optional[Union[StrictFloat, StrictInt]] = 0
     closed: Optional[Union[StrictFloat, StrictInt]] = 0
     __properties = ["open", "closed"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

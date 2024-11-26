@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV2WorkspaceProjectIdIdentityMembershipsIdentityIdPatchRequestRolesInnerAnyOf(BaseModel):
     """
@@ -28,11 +28,7 @@ class ApiV2WorkspaceProjectIdIdentityMembershipsIdentityIdPatchRequestRolesInner
     role: StrictStr = Field(default=..., description="The role slug to assign to the newly created identity project membership.")
     is_temporary: Optional[StrictBool] = Field(default=False, alias="isTemporary", description="Whether the assigned role is temporary. If isTemporary is set true, must provide temporaryMode, temporaryRange and temporaryAccessStartTime.")
     __properties = ["role", "isTemporary"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

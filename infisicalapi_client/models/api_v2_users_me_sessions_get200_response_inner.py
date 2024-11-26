@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt, StrictStr
 
 class ApiV2UsersMeSessionsGet200ResponseInner(BaseModel):
     """
@@ -35,11 +35,7 @@ class ApiV2UsersMeSessionsGet200ResponseInner(BaseModel):
     updated_at: datetime = Field(default=..., alias="updatedAt")
     user_id: StrictStr = Field(default=..., alias="userId")
     __properties = ["id", "ip", "userAgent", "refreshVersion", "accessVersion", "lastUsed", "createdAt", "updatedAt", "userId"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

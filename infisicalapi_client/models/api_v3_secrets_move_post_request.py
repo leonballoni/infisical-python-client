@@ -19,7 +19,8 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
+from typing_extensions import Annotated
 
 class ApiV3SecretsMovePostRequest(BaseModel):
     """
@@ -30,14 +31,10 @@ class ApiV3SecretsMovePostRequest(BaseModel):
     source_secret_path: Optional[StrictStr] = Field(default='/', alias="sourceSecretPath")
     destination_environment: StrictStr = Field(default=..., alias="destinationEnvironment")
     destination_secret_path: Optional[StrictStr] = Field(default='/', alias="destinationSecretPath")
-    secret_ids: conlist(StrictStr) = Field(default=..., alias="secretIds")
+    secret_ids: Annotated[List[StrictStr], Field()] = Field(default=..., alias="secretIds")
     should_overwrite: Optional[StrictBool] = Field(default=False, alias="shouldOverwrite")
     __properties = ["projectSlug", "sourceEnvironment", "sourceSecretPath", "destinationEnvironment", "destinationSecretPath", "secretIds", "shouldOverwrite"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

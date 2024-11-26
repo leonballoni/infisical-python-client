@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 
 class ApiV1OrganizationAdminProjectsGet200ResponseProjectsInner(BaseModel):
     """
@@ -38,11 +38,7 @@ class ApiV1OrganizationAdminProjectsGet200ResponseProjectsInner(BaseModel):
     kms_certificate_key_id: Optional[StrictStr] = Field(default=None, alias="kmsCertificateKeyId")
     audit_logs_retention_days: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="auditLogsRetentionDays")
     __properties = ["id", "name", "slug", "autoCapitalization", "orgId", "createdAt", "updatedAt", "version", "upgradeStatus", "pitVersionLimit", "kmsCertificateKeyId", "auditLogsRetentionDays"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

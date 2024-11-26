@@ -19,10 +19,11 @@ import json
 
 from datetime import datetime
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_access_approvals_requests_get200_response_requests_inner_policy import ApiV1AccessApprovalsRequestsGet200ResponseRequestsInnerPolicy
 from infisicalapi_client.models.api_v1_access_approvals_requests_get200_response_requests_inner_privilege import ApiV1AccessApprovalsRequestsGet200ResponseRequestsInnerPrivilege
 from infisicalapi_client.models.api_v1_access_approvals_requests_get200_response_requests_inner_reviewers_inner import ApiV1AccessApprovalsRequestsGet200ResponseRequestsInnerReviewersInner
+from typing_extensions import Annotated
 
 class ApiV1AccessApprovalsRequestsGet200ResponseRequestsInner(BaseModel):
     """
@@ -41,13 +42,9 @@ class ApiV1AccessApprovalsRequestsGet200ResponseRequestsInner(BaseModel):
     is_approved: StrictBool = Field(default=..., alias="isApproved")
     privilege: Optional[ApiV1AccessApprovalsRequestsGet200ResponseRequestsInnerPrivilege] = Field(...)
     policy: ApiV1AccessApprovalsRequestsGet200ResponseRequestsInnerPolicy = Field(...)
-    reviewers: conlist(ApiV1AccessApprovalsRequestsGet200ResponseRequestsInnerReviewersInner) = Field(...)
+    reviewers: Annotated[List[ApiV1AccessApprovalsRequestsGet200ResponseRequestsInnerReviewersInner], Field()] = Field(...)
     __properties = ["id", "policyId", "privilegeId", "requestedBy", "isTemporary", "temporaryRange", "permissions", "createdAt", "updatedAt", "environmentName", "isApproved", "privilege", "policy", "reviewers"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

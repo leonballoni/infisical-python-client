@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1DynamicSecretsNamePatchRequestData(BaseModel):
     """
@@ -30,11 +30,7 @@ class ApiV1DynamicSecretsNamePatchRequestData(BaseModel):
     max_ttl: Optional[StrictStr] = Field(default=None, alias="maxTTL", description="The maximum limit a TTL can be leases or renewed.")
     new_name: Optional[StrictStr] = Field(default=None, alias="newName", description="The new name for the dynamic secret.")
     __properties = ["inputs", "defaultTTL", "maxTTL", "newName"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

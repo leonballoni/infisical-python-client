@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV1WorkspaceWorkspaceIdUsersGet200ResponseUsersInnerRolesInner(BaseModel):
     """
@@ -36,11 +36,7 @@ class ApiV1WorkspaceWorkspaceIdUsersGet200ResponseUsersInnerRolesInner(BaseModel
     temporary_access_start_time: Optional[datetime] = Field(default=None, alias="temporaryAccessStartTime")
     temporary_access_end_time: Optional[datetime] = Field(default=None, alias="temporaryAccessEndTime")
     __properties = ["id", "role", "customRoleId", "customRoleName", "customRoleSlug", "isTemporary", "temporaryMode", "temporaryRange", "temporaryAccessStartTime", "temporaryAccessEndTime"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_dynamic_secrets_post_request_provider_any_of2_inputs import ApiV1DynamicSecretsPostRequestProviderAnyOf2Inputs
 
 class ApiV1DynamicSecretsPostRequestProviderAnyOf2(BaseModel):
@@ -30,17 +30,14 @@ class ApiV1DynamicSecretsPostRequestProviderAnyOf2(BaseModel):
     inputs: ApiV1DynamicSecretsPostRequestProviderAnyOf2Inputs = Field(...)
     __properties = ["type", "inputs"]
 
-    @validator('type')
+    @field_validator('type')
+    @classmethod
     def type_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('aws-iam'):
             raise ValueError("must be one of enum values ('aws-iam')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

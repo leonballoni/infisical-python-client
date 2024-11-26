@@ -19,19 +19,21 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, constr, validator
+from pydantic import field_validator, StringConstraints, ConfigDict, BaseModel, Field, StrictBool
+from typing_extensions import Annotated
 
 class ApiV1OrganizationOrganizationIdPatchRequest(BaseModel):
     """
     ApiV1OrganizationOrganizationIdPatchRequest
     """
-    name: Optional[constr(strict=True, max_length=64)] = None
-    slug: Optional[constr(strict=True, max_length=64)] = None
+    name: Optional[Annotated[str, StringConstraints(strict=True, max_length=64)]] = None
+    slug: Optional[Annotated[str, StringConstraints(strict=True, max_length=64)]] = None
     auth_enforced: Optional[StrictBool] = Field(default=None, alias="authEnforced")
     scim_enabled: Optional[StrictBool] = Field(default=None, alias="scimEnabled")
     __properties = ["name", "slug", "authEnforced", "scimEnabled"]
 
-    @validator('slug')
+    @field_validator('slug')
+    @classmethod
     def slug_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
@@ -40,11 +42,7 @@ class ApiV1OrganizationOrganizationIdPatchRequest(BaseModel):
         if not re.match(r"^[a-zA-Z0-9-]+$", value):
             raise ValueError(r"must validate the regular expression /^[a-zA-Z0-9-]+$/")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,9 +19,10 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_secret_approvals_get200_response_approvals_inner_environment import ApiV1SecretApprovalsGet200ResponseApprovalsInnerEnvironment
 from infisicalapi_client.models.api_v1_secret_imports_secrets_get200_response_secrets_inner_secrets_inner import ApiV1SecretImportsSecretsGet200ResponseSecretsInnerSecretsInner
+from typing_extensions import Annotated
 
 class ApiV1SecretImportsSecretsGet200ResponseSecretsInner(BaseModel):
     """
@@ -31,13 +32,9 @@ class ApiV1SecretImportsSecretsGet200ResponseSecretsInner(BaseModel):
     environment: StrictStr = Field(...)
     environment_info: ApiV1SecretApprovalsGet200ResponseApprovalsInnerEnvironment = Field(default=..., alias="environmentInfo")
     folder_id: Optional[StrictStr] = Field(default=None, alias="folderId")
-    secrets: conlist(ApiV1SecretImportsSecretsGet200ResponseSecretsInnerSecretsInner) = Field(...)
+    secrets: Annotated[List[ApiV1SecretImportsSecretsGet200ResponseSecretsInnerSecretsInner], Field()] = Field(...)
     __properties = ["secretPath", "environment", "environmentInfo", "folderId", "secrets"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1IntegrationAuthIntegrationAuthIdQoveryProjectsGet200ResponseProjectsInner(BaseModel):
     """
@@ -28,11 +28,7 @@ class ApiV1IntegrationAuthIntegrationAuthIdQoveryProjectsGet200ResponseProjectsI
     name: StrictStr = Field(...)
     project_id: StrictStr = Field(default=..., alias="projectId")
     __properties = ["name", "projectId"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

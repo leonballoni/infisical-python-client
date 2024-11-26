@@ -19,9 +19,10 @@ import json
 
 from datetime import datetime
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_workspace_workspace_id_users_get200_response_users_inner_roles_inner import ApiV1WorkspaceWorkspaceIdUsersGet200ResponseUsersInnerRolesInner
 from infisicalapi_client.models.api_v2_workspace_project_slug_groups_get200_response_group_memberships_inner_group import ApiV2WorkspaceProjectSlugGroupsGet200ResponseGroupMembershipsInnerGroup
+from typing_extensions import Annotated
 
 class ApiV2WorkspaceProjectSlugGroupsGet200ResponseGroupMembershipsInner(BaseModel):
     """
@@ -31,14 +32,10 @@ class ApiV2WorkspaceProjectSlugGroupsGet200ResponseGroupMembershipsInner(BaseMod
     group_id: StrictStr = Field(default=..., alias="groupId")
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
-    roles: conlist(ApiV1WorkspaceWorkspaceIdUsersGet200ResponseUsersInnerRolesInner) = Field(...)
+    roles: Annotated[List[ApiV1WorkspaceWorkspaceIdUsersGet200ResponseUsersInnerRolesInner], Field()] = Field(...)
     group: ApiV2WorkspaceProjectSlugGroupsGet200ResponseGroupMembershipsInnerGroup = Field(...)
     __properties = ["id", "groupId", "createdAt", "updatedAt", "roles", "group"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,19 +19,16 @@ import json
 
 
 
-from pydantic import BaseModel, Field, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field
+from typing_extensions import Annotated
 
 class ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInnerConditionsSecretPath(BaseModel):
     """
     ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInnerConditionsSecretPath
     """
-    glob: constr(strict=True, min_length=1) = Field(default=..., alias="$glob")
+    glob: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="$glob")
     __properties = ["$glob"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,9 +19,10 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_audit_log_streams_id_get200_response_audit_log_stream_headers_inner import ApiV1AuditLogStreamsIdGet200ResponseAuditLogStreamHeadersInner
 from infisicalapi_client.models.api_v1_integration_post_request_metadata_secret_gcp_label import ApiV1IntegrationPostRequestMetadataSecretGCPLabel
+from typing_extensions import Annotated
 
 class ApiV1IntegrationPostRequestMetadata(BaseModel):
     """
@@ -33,7 +34,7 @@ class ApiV1IntegrationPostRequestMetadata(BaseModel):
     mapping_behavior: Optional[StrictStr] = Field(default=None, alias="mappingBehavior", description="The mapping behavior of the integration.")
     should_auto_redeploy: Optional[StrictBool] = Field(default=None, alias="shouldAutoRedeploy", description="Used by Render to trigger auto deploy.")
     secret_gcp_label: Optional[ApiV1IntegrationPostRequestMetadataSecretGCPLabel] = Field(default=None, alias="secretGCPLabel")
-    secret_aws_tag: Optional[conlist(ApiV1AuditLogStreamsIdGet200ResponseAuditLogStreamHeadersInner)] = Field(default=None, alias="secretAWSTag", description="The tags for AWS secrets.")
+    secret_aws_tag: Optional[Annotated[List[ApiV1AuditLogStreamsIdGet200ResponseAuditLogStreamHeadersInner], Field()]] = Field(default=None, alias="secretAWSTag", description="The tags for AWS secrets.")
     kms_key_id: Optional[StrictStr] = Field(default=None, alias="kmsKeyId", description="The ID of the encryption key from AWS KMS.")
     should_disable_delete: Optional[StrictBool] = Field(default=None, alias="shouldDisableDelete", description="The flag to disable deletion of secrets in AWS Parameter Store.")
     should_enable_delete: Optional[StrictBool] = Field(default=None, alias="shouldEnableDelete", description="The flag to enable deletion of secrets")
@@ -41,7 +42,8 @@ class ApiV1IntegrationPostRequestMetadata(BaseModel):
     should_protect_secrets: Optional[StrictBool] = Field(default=None, alias="shouldProtectSecrets", description="Specifies if the secrets synced from Infisical to Gitlab should be marked as 'Protected'.")
     __properties = ["secretPrefix", "secretSuffix", "initialSyncBehavior", "mappingBehavior", "shouldAutoRedeploy", "secretGCPLabel", "secretAWSTag", "kmsKeyId", "shouldDisableDelete", "shouldEnableDelete", "shouldMaskSecrets", "shouldProtectSecrets"]
 
-    @validator('mapping_behavior')
+    @field_validator('mapping_behavior')
+    @classmethod
     def mapping_behavior_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
@@ -50,11 +52,7 @@ class ApiV1IntegrationPostRequestMetadata(BaseModel):
         if value not in ('one-to-one', 'many-to-one'):
             raise ValueError("must be one of enum values ('one-to-one', 'many-to-one')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

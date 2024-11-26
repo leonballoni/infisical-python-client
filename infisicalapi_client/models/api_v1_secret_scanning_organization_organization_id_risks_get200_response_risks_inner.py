@@ -19,7 +19,8 @@ import json
 
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1SecretScanningOrganizationOrganizationIdRisksGet200ResponseRisksInner(BaseModel):
     """
@@ -39,7 +40,7 @@ class ApiV1SecretScanningOrganizationOrganizationIdRisksGet200ResponseRisksInner
     email: Optional[StrictStr] = None
     var_date: Optional[StrictStr] = Field(default=None, alias="date")
     message: Optional[StrictStr] = None
-    tags: Optional[conlist(StrictStr)] = None
+    tags: Optional[Annotated[List[StrictStr], Field()]] = None
     rule_id: Optional[StrictStr] = Field(default=None, alias="ruleID")
     fingerprint: Optional[StrictStr] = None
     finger_print_without_commit_id: Optional[StrictStr] = Field(default=None, alias="fingerPrintWithoutCommitId")
@@ -57,11 +58,7 @@ class ApiV1SecretScanningOrganizationOrganizationIdRisksGet200ResponseRisksInner
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
     __properties = ["id", "description", "startLine", "endLine", "startColumn", "endColumn", "file", "symlinkFile", "commit", "entropy", "author", "email", "date", "message", "tags", "ruleID", "fingerprint", "fingerPrintWithoutCommitId", "isFalsePositive", "isResolved", "riskOwner", "installationId", "repositoryId", "repositoryLink", "repositoryFullName", "pusherName", "pusherEmail", "status", "orgId", "createdAt", "updatedAt"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_identities_get200_response_identities_inner_identity import ApiV1IdentitiesGet200ResponseIdentitiesInnerIdentity
 from infisicalapi_client.models.api_v1_organization_organization_id_groups_get200_response_groups_inner_custom_role import ApiV1OrganizationOrganizationIdGroupsGet200ResponseGroupsInnerCustomRole
 
@@ -37,11 +37,7 @@ class ApiV1IdentitiesGet200ResponseIdentitiesInner(BaseModel):
     custom_role: Optional[ApiV1OrganizationOrganizationIdGroupsGet200ResponseGroupsInnerCustomRole] = Field(default=None, alias="customRole")
     identity: ApiV1IdentitiesGet200ResponseIdentitiesInnerIdentity = Field(...)
     __properties = ["id", "role", "roleId", "orgId", "createdAt", "updatedAt", "identityId", "customRole", "identity"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

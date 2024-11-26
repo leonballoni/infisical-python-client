@@ -19,21 +19,18 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV2WorkspacePostRequest(BaseModel):
     """
     ApiV2WorkspacePostRequest
     """
     project_name: StrictStr = Field(default=..., alias="projectName", description="The name of the project to create.")
-    slug: Optional[constr(strict=True, max_length=36, min_length=5)] = Field(default=None, description="An optional slug for the project.")
+    slug: Optional[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)]] = Field(default=None, description="An optional slug for the project.")
     kms_key_id: Optional[StrictStr] = Field(default=None, alias="kmsKeyId")
     __properties = ["projectName", "slug", "kmsKeyId"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

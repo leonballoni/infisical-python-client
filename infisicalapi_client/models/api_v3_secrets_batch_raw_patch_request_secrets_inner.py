@@ -19,7 +19,8 @@ import json
 
 
 from typing import List, Optional, Union
-from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, conlist, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from typing_extensions import Annotated
 
 class ApiV3SecretsBatchRawPatchRequestSecretsInner(BaseModel):
     """
@@ -29,16 +30,12 @@ class ApiV3SecretsBatchRawPatchRequestSecretsInner(BaseModel):
     secret_value: StrictStr = Field(default=..., alias="secretValue", description="The new value of the secret.")
     secret_comment: Optional[StrictStr] = Field(default=None, alias="secretComment", description="Update comment to the secret.")
     skip_multiline_encoding: Optional[StrictBool] = Field(default=None, alias="skipMultilineEncoding", description="Skip multiline encoding for the secret value.")
-    new_secret_name: Optional[constr(strict=True, min_length=1)] = Field(default=None, alias="newSecretName", description="The new name for the secret")
-    tag_ids: Optional[conlist(StrictStr)] = Field(default=None, alias="tagIds", description="The ID of the tags to be attached to the updated secret.")
+    new_secret_name: Optional[Annotated[str, StringConstraints(strict=True, min_length=1)]] = Field(default=None, alias="newSecretName", description="The new name for the secret")
+    tag_ids: Optional[Annotated[List[StrictStr], Field()]] = Field(default=None, alias="tagIds", description="The ID of the tags to be attached to the updated secret.")
     secret_reminder_note: Optional[StrictStr] = Field(default=None, alias="secretReminderNote", description="Note to be attached in notification email")
     secret_reminder_repeat_days: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="secretReminderRepeatDays", description="Interval for secret rotation notifications, measured in days")
     __properties = ["secretKey", "secretValue", "secretComment", "skipMultilineEncoding", "newSecretName", "tagIds", "secretReminderNote", "secretReminderRepeatDays"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

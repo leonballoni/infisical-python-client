@@ -19,21 +19,18 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1AdditionalPrivilegeUsersPermanentPostRequest(BaseModel):
     """
     ApiV1AdditionalPrivilegeUsersPermanentPostRequest
     """
-    project_membership_id: constr(strict=True, min_length=1) = Field(default=..., alias="projectMembershipId", description="Project membership id of user")
-    slug: Optional[constr(strict=True, max_length=60, min_length=1)] = Field(default=None, description="The slug of the privilege to create.")
-    permissions: conlist(StrictStr) = Field(default=..., description="The permission object for the privilege. Refer https://casl.js.org/v6/en/guide/define-rules#the-shape-of-raw-rule to understand the shape")
+    project_membership_id: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="projectMembershipId", description="Project membership id of user")
+    slug: Optional[Annotated[str, StringConstraints(strict=True, max_length=60, min_length=1)]] = Field(default=None, description="The slug of the privilege to create.")
+    permissions: Annotated[List[StrictStr], Field()] = Field(default=..., description="The permission object for the privilege. Refer https://casl.js.org/v6/en/guide/define-rules#the-shape-of-raw-rule to understand the shape")
     __properties = ["projectMembershipId", "slug", "permissions"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

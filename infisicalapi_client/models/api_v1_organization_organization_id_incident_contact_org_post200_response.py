@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_organization_organization_id_incident_contact_org_get200_response_incident_contacts_org_inner import ApiV1OrganizationOrganizationIdIncidentContactOrgGet200ResponseIncidentContactsOrgInner
 
 class ApiV1OrganizationOrganizationIdIncidentContactOrgPost200Response(BaseModel):
@@ -28,11 +28,7 @@ class ApiV1OrganizationOrganizationIdIncidentContactOrgPost200Response(BaseModel
     """
     incident_contacts_org: ApiV1OrganizationOrganizationIdIncidentContactOrgGet200ResponseIncidentContactsOrgInner = Field(default=..., alias="incidentContactsOrg")
     __properties = ["incidentContactsOrg"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

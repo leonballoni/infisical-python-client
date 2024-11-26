@@ -19,22 +19,19 @@ import json
 
 
 from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictStr, confloat, conint, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1PkiCaCaIdSignIntermediatePostRequest(BaseModel):
     """
     ApiV1PkiCaCaIdSignIntermediatePostRequest
     """
-    csr: constr(strict=True, min_length=1) = Field(default=..., description="The pem-encoded CSR to sign with the CA")
+    csr: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., description="The pem-encoded CSR to sign with the CA")
     not_before: Optional[StrictStr] = Field(default=None, alias="notBefore", description="The date and time when the intermediate CA becomes valid in YYYY-MM-DDTHH:mm:ss.sssZ format")
     not_after: StrictStr = Field(default=..., alias="notAfter", description="The date and time when the intermediate CA expires in YYYY-MM-DDTHH:mm:ss.sssZ format")
-    max_path_length: Optional[Union[confloat(ge=-1, strict=True), conint(ge=-1, strict=True)]] = Field(default=-1, alias="maxPathLength", description="The maximum number of intermediate CAs that may follow this CA in the certificate / CA chain. A maxPathLength of -1 implies no path limit on the chain.")
+    max_path_length: Optional[Union[Annotated[float, Field(ge=-1, strict=True)], Annotated[int, Field(ge=-1, strict=True)]]] = Field(default=-1, alias="maxPathLength", description="The maximum number of intermediate CAs that may follow this CA in the certificate / CA chain. A maxPathLength of -1 implies no path limit on the chain.")
     __properties = ["csr", "notBefore", "notAfter", "maxPathLength"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

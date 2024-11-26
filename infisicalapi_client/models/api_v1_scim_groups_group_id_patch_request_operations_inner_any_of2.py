@@ -19,8 +19,9 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_scim_groups_group_id_patch_request_operations_inner_any_of2_value_inner import ApiV1ScimGroupsGroupIdPatchRequestOperationsInnerAnyOf2ValueInner
+from typing_extensions import Annotated
 
 class ApiV1ScimGroupsGroupIdPatchRequestOperationsInnerAnyOf2(BaseModel):
     """
@@ -28,20 +29,17 @@ class ApiV1ScimGroupsGroupIdPatchRequestOperationsInnerAnyOf2(BaseModel):
     """
     op: StrictStr = Field(...)
     path: StrictStr = Field(...)
-    value: conlist(ApiV1ScimGroupsGroupIdPatchRequestOperationsInnerAnyOf2ValueInner) = Field(...)
+    value: Annotated[List[ApiV1ScimGroupsGroupIdPatchRequestOperationsInnerAnyOf2ValueInner], Field()] = Field(...)
     __properties = ["op", "path", "value"]
 
-    @validator('op')
+    @field_validator('op')
+    @classmethod
     def op_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('add'):
             raise ValueError("must be one of enum values ('add')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

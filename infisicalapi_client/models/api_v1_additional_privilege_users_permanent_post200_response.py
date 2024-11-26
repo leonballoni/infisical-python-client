@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_additional_privilege_users_permanent_post200_response_privilege import ApiV1AdditionalPrivilegeUsersPermanentPost200ResponsePrivilege
 
 class ApiV1AdditionalPrivilegeUsersPermanentPost200Response(BaseModel):
@@ -28,11 +28,7 @@ class ApiV1AdditionalPrivilegeUsersPermanentPost200Response(BaseModel):
     """
     privilege: ApiV1AdditionalPrivilegeUsersPermanentPost200ResponsePrivilege = Field(...)
     __properties = ["privilege"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

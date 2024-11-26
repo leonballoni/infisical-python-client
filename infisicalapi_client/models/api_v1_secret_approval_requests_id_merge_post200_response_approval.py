@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Any, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV1SecretApprovalRequestsIdMergePost200ResponseApproval(BaseModel):
     """
@@ -39,11 +39,7 @@ class ApiV1SecretApprovalRequestsIdMergePost200ResponseApproval(BaseModel):
     status_changed_by_user_id: Optional[StrictStr] = Field(default=None, alias="statusChangedByUserId")
     bypass_reason: Optional[StrictStr] = Field(default=None, alias="bypassReason")
     __properties = ["id", "policyId", "hasMerged", "status", "conflicts", "slug", "folderId", "createdAt", "updatedAt", "isReplicated", "committerUserId", "statusChangedByUserId", "bypassReason"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

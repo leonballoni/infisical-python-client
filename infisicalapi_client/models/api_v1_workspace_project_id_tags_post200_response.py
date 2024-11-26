@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_workspace_project_id_tags_get200_response_workspace_tags_inner import ApiV1WorkspaceProjectIdTagsGet200ResponseWorkspaceTagsInner
 
 class ApiV1WorkspaceProjectIdTagsPost200Response(BaseModel):
@@ -28,11 +28,7 @@ class ApiV1WorkspaceProjectIdTagsPost200Response(BaseModel):
     """
     workspace_tag: ApiV1WorkspaceProjectIdTagsGet200ResponseWorkspaceTagsInner = Field(default=..., alias="workspaceTag")
     __properties = ["workspaceTag"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

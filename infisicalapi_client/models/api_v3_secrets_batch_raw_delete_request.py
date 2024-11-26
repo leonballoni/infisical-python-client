@@ -19,8 +19,9 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v3_secrets_batch_raw_delete_request_secrets_inner import ApiV3SecretsBatchRawDeleteRequestSecretsInner
+from typing_extensions import Annotated
 
 class ApiV3SecretsBatchRawDeleteRequest(BaseModel):
     """
@@ -30,13 +31,9 @@ class ApiV3SecretsBatchRawDeleteRequest(BaseModel):
     workspace_id: Optional[StrictStr] = Field(default=None, alias="workspaceId", description="The ID of the project where the secret is located.")
     environment: StrictStr = Field(default=..., description="The slug of the environment where the secret is located.")
     secret_path: Optional[StrictStr] = Field(default='/', alias="secretPath", description="The path of the secret.")
-    secrets: conlist(ApiV3SecretsBatchRawDeleteRequestSecretsInner, min_items=1) = Field(...)
+    secrets: Annotated[List[ApiV3SecretsBatchRawDeleteRequestSecretsInner], Field(min_length=1)] = Field(...)
     __properties = ["projectSlug", "workspaceId", "environment", "secretPath", "secrets"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

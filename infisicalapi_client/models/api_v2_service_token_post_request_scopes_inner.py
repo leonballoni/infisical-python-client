@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV2ServiceTokenPostRequestScopesInner(BaseModel):
     """
@@ -28,11 +28,7 @@ class ApiV2ServiceTokenPostRequestScopesInner(BaseModel):
     environment: StrictStr = Field(...)
     secret_path: StrictStr = Field(default=..., alias="secretPath")
     __properties = ["environment", "secretPath"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

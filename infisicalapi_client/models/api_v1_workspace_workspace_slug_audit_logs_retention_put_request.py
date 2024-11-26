@@ -19,19 +19,16 @@ import json
 
 
 from typing import Union
-from pydantic import BaseModel, Field, confloat, conint
+from pydantic import ConfigDict, BaseModel, Field
+from typing_extensions import Annotated
 
 class ApiV1WorkspaceWorkspaceSlugAuditLogsRetentionPutRequest(BaseModel):
     """
     ApiV1WorkspaceWorkspaceSlugAuditLogsRetentionPutRequest
     """
-    audit_logs_retention_days: Union[confloat(ge=0, strict=True), conint(ge=0, strict=True)] = Field(default=..., alias="auditLogsRetentionDays")
+    audit_logs_retention_days: Union[Annotated[float, Field(ge=0, strict=True)], Annotated[int, Field(ge=0, strict=True)]] = Field(default=..., alias="auditLogsRetentionDays")
     __properties = ["auditLogsRetentionDays"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

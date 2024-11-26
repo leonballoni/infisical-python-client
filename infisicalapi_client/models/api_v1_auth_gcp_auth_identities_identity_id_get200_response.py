@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_auth_gcp_auth_identities_identity_id_get200_response_identity_gcp_auth import ApiV1AuthGcpAuthIdentitiesIdentityIdGet200ResponseIdentityGcpAuth
 
 class ApiV1AuthGcpAuthIdentitiesIdentityIdGet200Response(BaseModel):
@@ -28,11 +28,7 @@ class ApiV1AuthGcpAuthIdentitiesIdentityIdGet200Response(BaseModel):
     """
     identity_gcp_auth: ApiV1AuthGcpAuthIdentitiesIdentityIdGet200ResponseIdentityGcpAuth = Field(default=..., alias="identityGcpAuth")
     __properties = ["identityGcpAuth"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

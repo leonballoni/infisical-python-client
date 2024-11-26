@@ -19,11 +19,12 @@ import json
 
 from datetime import datetime
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_secret_approval_requests_get200_response_approvals_inner_commits_inner import ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerCommitsInner
 from infisicalapi_client.models.api_v1_secret_approval_requests_get200_response_approvals_inner_committer_user import ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerCommitterUser
 from infisicalapi_client.models.api_v1_secret_approval_requests_get200_response_approvals_inner_policy import ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerPolicy
 from infisicalapi_client.models.api_v1_secret_approval_requests_get200_response_approvals_inner_reviewers_inner import ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerReviewersInner
+from typing_extensions import Annotated
 
 class ApiV1SecretApprovalRequestsGet200ResponseApprovalsInner(BaseModel):
     """
@@ -44,16 +45,12 @@ class ApiV1SecretApprovalRequestsGet200ResponseApprovalsInner(BaseModel):
     bypass_reason: Optional[StrictStr] = Field(default=None, alias="bypassReason")
     policy: ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerPolicy = Field(...)
     committer_user: ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerCommitterUser = Field(default=..., alias="committerUser")
-    commits: conlist(ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerCommitsInner) = Field(...)
+    commits: Annotated[List[ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerCommitsInner], Field()] = Field(...)
     environment: StrictStr = Field(...)
-    reviewers: conlist(ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerReviewersInner) = Field(...)
-    approvers: conlist(StrictStr) = Field(...)
+    reviewers: Annotated[List[ApiV1SecretApprovalRequestsGet200ResponseApprovalsInnerReviewersInner], Field()] = Field(...)
+    approvers: Annotated[List[StrictStr], Field()] = Field(...)
     __properties = ["id", "policyId", "hasMerged", "status", "conflicts", "slug", "folderId", "createdAt", "updatedAt", "isReplicated", "committerUserId", "statusChangedByUserId", "bypassReason", "policy", "committerUser", "commits", "environment", "reviewers", "approvers"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

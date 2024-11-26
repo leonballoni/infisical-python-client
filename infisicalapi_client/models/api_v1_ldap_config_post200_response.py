@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV1LdapConfigPost200Response(BaseModel):
     """
@@ -46,11 +46,7 @@ class ApiV1LdapConfigPost200Response(BaseModel):
     search_filter: Optional[StrictStr] = Field(default='', alias="searchFilter")
     unique_user_attribute: Optional[StrictStr] = Field(default='', alias="uniqueUserAttribute")
     __properties = ["id", "orgId", "isActive", "url", "encryptedBindDN", "bindDNIV", "bindDNTag", "encryptedBindPass", "bindPassIV", "bindPassTag", "searchBase", "encryptedCACert", "caCertIV", "caCertTag", "createdAt", "updatedAt", "groupSearchBase", "groupSearchFilter", "searchFilter", "uniqueUserAttribute"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

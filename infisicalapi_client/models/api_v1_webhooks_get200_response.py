@@ -19,21 +19,18 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_webhooks_get200_response_webhooks_inner import ApiV1WebhooksGet200ResponseWebhooksInner
+from typing_extensions import Annotated
 
 class ApiV1WebhooksGet200Response(BaseModel):
     """
     ApiV1WebhooksGet200Response
     """
     message: StrictStr = Field(...)
-    webhooks: conlist(ApiV1WebhooksGet200ResponseWebhooksInner) = Field(...)
+    webhooks: Annotated[List[ApiV1WebhooksGet200ResponseWebhooksInner], Field()] = Field(...)
     __properties = ["message", "webhooks"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

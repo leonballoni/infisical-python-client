@@ -19,21 +19,18 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field
+from typing_extensions import Annotated
 
 class ApiV1GroupsCurrentSlugPatchRequest(BaseModel):
     """
     ApiV1GroupsCurrentSlugPatchRequest
     """
-    name: Optional[constr(strict=True, min_length=1)] = Field(default=None, description="The new name of the group to update to.")
-    slug: Optional[constr(strict=True, max_length=36, min_length=5)] = Field(default=None, description="The new slug of the group to update to.")
-    role: Optional[constr(strict=True, min_length=1)] = Field(default=None, description="The new role of the group to update to.")
+    name: Optional[Annotated[str, StringConstraints(strict=True, min_length=1)]] = Field(default=None, description="The new name of the group to update to.")
+    slug: Optional[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)]] = Field(default=None, description="The new slug of the group to update to.")
+    role: Optional[Annotated[str, StringConstraints(strict=True, min_length=1)]] = Field(default=None, description="The new role of the group to update to.")
     __properties = ["name", "slug", "role"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

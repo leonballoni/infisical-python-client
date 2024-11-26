@@ -16,12 +16,12 @@ import re  # noqa: F401
 import io
 import warnings
 
-from pydantic import validate_arguments, ValidationError
+from pydantic import StringConstraints, validate_arguments, ValidationError
 
 from typing_extensions import Annotated
 from datetime import datetime
 
-from pydantic import Field, StrictFloat, StrictInt, StrictStr, confloat, conint, constr
+from pydantic import Field, StrictFloat, StrictInt, StrictStr
 
 from typing import Any, Dict, List, Optional, Union
 
@@ -2048,7 +2048,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_additional_privilege_identity_get(self, identity_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the identity to list.")], project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project of the identity in.")], **kwargs) -> ApiV1AdditionalPrivilegeIdentityGet200Response:  # noqa: E501
+    def api_v1_additional_privilege_identity_get(self, identity_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the identity to list.")], project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project of the identity in.")], **kwargs) -> ApiV1AdditionalPrivilegeIdentityGet200Response:  # noqa: E501
         """api_v1_additional_privilege_identity_get  # noqa: E501
 
         List of a specific privilege of an identity in a project.  # noqa: E501
@@ -2080,7 +2080,7 @@ class DefaultApi:
         return self.api_v1_additional_privilege_identity_get_with_http_info(identity_id, project_slug, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_additional_privilege_identity_get_with_http_info(self, identity_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the identity to list.")], project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project of the identity in.")], **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_additional_privilege_identity_get_with_http_info(self, identity_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the identity to list.")], project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project of the identity in.")], **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_additional_privilege_identity_get  # noqa: E501
 
         List of a specific privilege of an identity in a project.  # noqa: E501
@@ -2490,7 +2490,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_additional_privilege_identity_privilege_slug_get(self, identity_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the identity to list.")], project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project of the identity in.")], privilege_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the privilege.")], **kwargs) -> ApiV1AdditionalPrivilegeIdentityPermanentPost200Response:  # noqa: E501
+    def api_v1_additional_privilege_identity_privilege_slug_get(self, identity_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the identity to list.")], project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project of the identity in.")], privilege_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the privilege.")], **kwargs) -> ApiV1AdditionalPrivilegeIdentityPermanentPost200Response:  # noqa: E501
         """api_v1_additional_privilege_identity_privilege_slug_get  # noqa: E501
 
         Retrieve details of a specific privilege by privilege slug.  # noqa: E501
@@ -2524,7 +2524,7 @@ class DefaultApi:
         return self.api_v1_additional_privilege_identity_privilege_slug_get_with_http_info(identity_id, project_slug, privilege_slug, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_additional_privilege_identity_privilege_slug_get_with_http_info(self, identity_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the identity to list.")], project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project of the identity in.")], privilege_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the privilege.")], **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_additional_privilege_identity_privilege_slug_get_with_http_info(self, identity_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the identity to list.")], project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project of the identity in.")], privilege_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the privilege.")], **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_additional_privilege_identity_privilege_slug_get  # noqa: E501
 
         Retrieve details of a specific privilege by privilege slug.  # noqa: E501
@@ -3352,7 +3352,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_additional_privilege_users_privilege_id_patch(self, privilege_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The id of privilege object")], api_v1_additional_privilege_users_privilege_id_patch_request : Optional[ApiV1AdditionalPrivilegeUsersPrivilegeIdPatchRequest] = None, **kwargs) -> ApiV1AdditionalPrivilegeUsersPermanentPost200Response:  # noqa: E501
+    def api_v1_additional_privilege_users_privilege_id_patch(self, privilege_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The id of privilege object")], api_v1_additional_privilege_users_privilege_id_patch_request : Optional[ApiV1AdditionalPrivilegeUsersPrivilegeIdPatchRequest] = None, **kwargs) -> ApiV1AdditionalPrivilegeUsersPermanentPost200Response:  # noqa: E501
         """api_v1_additional_privilege_users_privilege_id_patch  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -3383,7 +3383,7 @@ class DefaultApi:
         return self.api_v1_additional_privilege_users_privilege_id_patch_with_http_info(privilege_id, api_v1_additional_privilege_users_privilege_id_patch_request, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_additional_privilege_users_privilege_id_patch_with_http_info(self, privilege_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The id of privilege object")], api_v1_additional_privilege_users_privilege_id_patch_request : Optional[ApiV1AdditionalPrivilegeUsersPrivilegeIdPatchRequest] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_additional_privilege_users_privilege_id_patch_with_http_info(self, privilege_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The id of privilege object")], api_v1_additional_privilege_users_privilege_id_patch_request : Optional[ApiV1AdditionalPrivilegeUsersPrivilegeIdPatchRequest] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_additional_privilege_users_privilege_id_patch  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -4070,7 +4070,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_admin_user_management_users_get(self, search_term : Optional[StrictStr] = None, offset : Optional[Union[StrictFloat, StrictInt]] = None, limit : Optional[Union[confloat(le=100, strict=True), conint(le=100.0, strict=True)]] = None, **kwargs) -> ApiV1AdminUserManagementUsersGet200Response:  # noqa: E501
+    def api_v1_admin_user_management_users_get(self, search_term : Optional[StrictStr] = None, offset : Optional[Union[StrictFloat, StrictInt]] = None, limit : Optional[Union[Annotated[float, Field(le=100, strict=True)], Annotated[int, Field(le=100.0, strict=True)]]] = None, **kwargs) -> ApiV1AdminUserManagementUsersGet200Response:  # noqa: E501
         """api_v1_admin_user_management_users_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -4103,7 +4103,7 @@ class DefaultApi:
         return self.api_v1_admin_user_management_users_get_with_http_info(search_term, offset, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_admin_user_management_users_get_with_http_info(self, search_term : Optional[StrictStr] = None, offset : Optional[Union[StrictFloat, StrictInt]] = None, limit : Optional[Union[confloat(le=100, strict=True), conint(le=100.0, strict=True)]] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_admin_user_management_users_get_with_http_info(self, search_term : Optional[StrictStr] = None, offset : Optional[Union[StrictFloat, StrictInt]] = None, limit : Optional[Union[Annotated[float, Field(le=100, strict=True)], Annotated[int, Field(le=100.0, strict=True)]]] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_admin_user_management_users_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -9611,7 +9611,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_auth_token_auth_identities_identity_id_tokens_get(self, identity_id : Annotated[StrictStr, Field(..., description="The ID of the identity to list token metadata for.")], offset : Annotated[Optional[Union[confloat(le=100, ge=0, strict=True), conint(le=100.0, ge=0.0, strict=True)]], Field(description="The offset to start from. If you enter 10, it will start from the 10th token.")] = None, limit : Annotated[Optional[Union[confloat(le=100, ge=1, strict=True), conint(le=100.0, ge=1.0, strict=True)]], Field(description="The number of tokens to return")] = None, **kwargs) -> ApiV1AuthTokenAuthIdentitiesIdentityIdTokensGet200Response:  # noqa: E501
+    def api_v1_auth_token_auth_identities_identity_id_tokens_get(self, identity_id : Annotated[StrictStr, Field(..., description="The ID of the identity to list token metadata for.")], offset : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=0, strict=True)], Annotated[int, Field(le=100.0, ge=0.0, strict=True)]]], Field(description="The offset to start from. If you enter 10, it will start from the 10th token.")] = None, limit : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100.0, ge=1.0, strict=True)]]], Field(description="The number of tokens to return")] = None, **kwargs) -> ApiV1AuthTokenAuthIdentitiesIdentityIdTokensGet200Response:  # noqa: E501
         """api_v1_auth_token_auth_identities_identity_id_tokens_get  # noqa: E501
 
         Get tokens for identity with Token Auth  # noqa: E501
@@ -9645,7 +9645,7 @@ class DefaultApi:
         return self.api_v1_auth_token_auth_identities_identity_id_tokens_get_with_http_info(identity_id, offset, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_auth_token_auth_identities_identity_id_tokens_get_with_http_info(self, identity_id : Annotated[StrictStr, Field(..., description="The ID of the identity to list token metadata for.")], offset : Annotated[Optional[Union[confloat(le=100, ge=0, strict=True), conint(le=100.0, ge=0.0, strict=True)]], Field(description="The offset to start from. If you enter 10, it will start from the 10th token.")] = None, limit : Annotated[Optional[Union[confloat(le=100, ge=1, strict=True), conint(le=100.0, ge=1.0, strict=True)]], Field(description="The number of tokens to return")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_auth_token_auth_identities_identity_id_tokens_get_with_http_info(self, identity_id : Annotated[StrictStr, Field(..., description="The ID of the identity to list token metadata for.")], offset : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=0, strict=True)], Annotated[int, Field(le=100.0, ge=0.0, strict=True)]]], Field(description="The offset to start from. If you enter 10, it will start from the 10th token.")] = None, limit : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100.0, ge=1.0, strict=True)]]], Field(description="The number of tokens to return")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_auth_token_auth_identities_identity_id_tokens_get  # noqa: E501
 
         Get tokens for identity with Token Auth  # noqa: E501
@@ -12260,7 +12260,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_dynamic_secrets_get(self, project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the environment to list folders from.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiV1DynamicSecretsGet200Response:  # noqa: E501
+    def api_v1_dynamic_secrets_get(self, project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the environment to list folders from.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiV1DynamicSecretsGet200Response:  # noqa: E501
         """api_v1_dynamic_secrets_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -12293,7 +12293,7 @@ class DefaultApi:
         return self.api_v1_dynamic_secrets_get_with_http_info(project_slug, environment_slug, path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_dynamic_secrets_get_with_http_info(self, project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the environment to list folders from.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_dynamic_secrets_get_with_http_info(self, project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the environment to list folders from.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_dynamic_secrets_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -12414,7 +12414,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_dynamic_secrets_leases_lease_id_delete(self, lease_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the dynamic secret lease.")], api_v1_dynamic_secrets_leases_lease_id_delete_request : ApiV1DynamicSecretsLeasesLeaseIdDeleteRequest, **kwargs) -> ApiV1DynamicSecretsLeasesLeaseIdDelete200Response:  # noqa: E501
+    def api_v1_dynamic_secrets_leases_lease_id_delete(self, lease_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the dynamic secret lease.")], api_v1_dynamic_secrets_leases_lease_id_delete_request : ApiV1DynamicSecretsLeasesLeaseIdDeleteRequest, **kwargs) -> ApiV1DynamicSecretsLeasesLeaseIdDelete200Response:  # noqa: E501
         """api_v1_dynamic_secrets_leases_lease_id_delete  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -12445,7 +12445,7 @@ class DefaultApi:
         return self.api_v1_dynamic_secrets_leases_lease_id_delete_with_http_info(lease_id, api_v1_dynamic_secrets_leases_lease_id_delete_request, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_dynamic_secrets_leases_lease_id_delete_with_http_info(self, lease_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the dynamic secret lease.")], api_v1_dynamic_secrets_leases_lease_id_delete_request : ApiV1DynamicSecretsLeasesLeaseIdDeleteRequest, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_dynamic_secrets_leases_lease_id_delete_with_http_info(self, lease_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the dynamic secret lease.")], api_v1_dynamic_secrets_leases_lease_id_delete_request : ApiV1DynamicSecretsLeasesLeaseIdDeleteRequest, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_dynamic_secrets_leases_lease_id_delete  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -12567,7 +12567,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_dynamic_secrets_leases_lease_id_get(self, project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the environment to list folders from.")], lease_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the dynamic secret lease.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiV1DynamicSecretsLeasesLeaseIdGet200Response:  # noqa: E501
+    def api_v1_dynamic_secrets_leases_lease_id_get(self, project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the environment to list folders from.")], lease_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the dynamic secret lease.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiV1DynamicSecretsLeasesLeaseIdGet200Response:  # noqa: E501
         """api_v1_dynamic_secrets_leases_lease_id_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -12602,7 +12602,7 @@ class DefaultApi:
         return self.api_v1_dynamic_secrets_leases_lease_id_get_with_http_info(project_slug, environment_slug, lease_id, path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_dynamic_secrets_leases_lease_id_get_with_http_info(self, project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the environment to list folders from.")], lease_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the dynamic secret lease.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_dynamic_secrets_leases_lease_id_get_with_http_info(self, project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the environment to list folders from.")], lease_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the dynamic secret lease.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_dynamic_secrets_leases_lease_id_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -12729,7 +12729,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_dynamic_secrets_leases_lease_id_renew_post(self, lease_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the dynamic secret lease.")], api_v1_dynamic_secrets_leases_lease_id_renew_post_request : ApiV1DynamicSecretsLeasesLeaseIdRenewPostRequest, **kwargs) -> ApiV1DynamicSecretsLeasesLeaseIdDelete200Response:  # noqa: E501
+    def api_v1_dynamic_secrets_leases_lease_id_renew_post(self, lease_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the dynamic secret lease.")], api_v1_dynamic_secrets_leases_lease_id_renew_post_request : ApiV1DynamicSecretsLeasesLeaseIdRenewPostRequest, **kwargs) -> ApiV1DynamicSecretsLeasesLeaseIdDelete200Response:  # noqa: E501
         """api_v1_dynamic_secrets_leases_lease_id_renew_post  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -12760,7 +12760,7 @@ class DefaultApi:
         return self.api_v1_dynamic_secrets_leases_lease_id_renew_post_with_http_info(lease_id, api_v1_dynamic_secrets_leases_lease_id_renew_post_request, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_dynamic_secrets_leases_lease_id_renew_post_with_http_info(self, lease_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the dynamic secret lease.")], api_v1_dynamic_secrets_leases_lease_id_renew_post_request : ApiV1DynamicSecretsLeasesLeaseIdRenewPostRequest, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_dynamic_secrets_leases_lease_id_renew_post_with_http_info(self, lease_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the dynamic secret lease.")], api_v1_dynamic_secrets_leases_lease_id_renew_post_request : ApiV1DynamicSecretsLeasesLeaseIdRenewPostRequest, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_dynamic_secrets_leases_lease_id_renew_post  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -13180,7 +13180,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_dynamic_secrets_name_get(self, project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the environment to list folders from.")], name : Annotated[constr(strict=True, min_length=1), Field(..., description="The name of the dynamic secret.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiV1DynamicSecretsNameGet200Response:  # noqa: E501
+    def api_v1_dynamic_secrets_name_get(self, project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the environment to list folders from.")], name : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The name of the dynamic secret.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiV1DynamicSecretsNameGet200Response:  # noqa: E501
         """api_v1_dynamic_secrets_name_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -13215,7 +13215,7 @@ class DefaultApi:
         return self.api_v1_dynamic_secrets_name_get_with_http_info(project_slug, environment_slug, name, path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_dynamic_secrets_name_get_with_http_info(self, project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the environment to list folders from.")], name : Annotated[constr(strict=True, min_length=1), Field(..., description="The name of the dynamic secret.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_dynamic_secrets_name_get_with_http_info(self, project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the environment to list folders from.")], name : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The name of the dynamic secret.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_dynamic_secrets_name_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -13342,7 +13342,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_dynamic_secrets_name_leases_get(self, project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the environment to list folders from.")], name : Annotated[constr(strict=True, min_length=1), Field(..., description="The name of the dynamic secret.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiV1DynamicSecretsNameLeasesGet200Response:  # noqa: E501
+    def api_v1_dynamic_secrets_name_leases_get(self, project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the environment to list folders from.")], name : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The name of the dynamic secret.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiV1DynamicSecretsNameLeasesGet200Response:  # noqa: E501
         """api_v1_dynamic_secrets_name_leases_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -13377,7 +13377,7 @@ class DefaultApi:
         return self.api_v1_dynamic_secrets_name_leases_get_with_http_info(project_slug, environment_slug, name, path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_dynamic_secrets_name_leases_get_with_http_info(self, project_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[constr(strict=True, min_length=1), Field(..., description="The slug of the environment to list folders from.")], name : Annotated[constr(strict=True, min_length=1), Field(..., description="The name of the dynamic secret.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_dynamic_secrets_name_leases_get_with_http_info(self, project_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the project to create dynamic secret in.")], environment_slug : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The slug of the environment to list folders from.")], name : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The name of the dynamic secret.")], path : Annotated[Optional[StrictStr], Field(description="The path to list folders from.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_dynamic_secrets_name_leases_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -13932,7 +13932,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_external_kms_id_delete(self, id : constr(strict=True, min_length=1), **kwargs) -> ApiV1ExternalKmsPost200Response:  # noqa: E501
+    def api_v1_external_kms_id_delete(self, id : Annotated[str, StringConstraints(strict=True, min_length=1)], **kwargs) -> ApiV1ExternalKmsPost200Response:  # noqa: E501
         """api_v1_external_kms_id_delete  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -13961,7 +13961,7 @@ class DefaultApi:
         return self.api_v1_external_kms_id_delete_with_http_info(id, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_external_kms_id_delete_with_http_info(self, id : constr(strict=True, min_length=1), **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_external_kms_id_delete_with_http_info(self, id : Annotated[str, StringConstraints(strict=True, min_length=1)], **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_external_kms_id_delete  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -14070,7 +14070,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_external_kms_id_get(self, id : constr(strict=True, min_length=1), **kwargs) -> ApiV1ExternalKmsIdGet200Response:  # noqa: E501
+    def api_v1_external_kms_id_get(self, id : Annotated[str, StringConstraints(strict=True, min_length=1)], **kwargs) -> ApiV1ExternalKmsIdGet200Response:  # noqa: E501
         """api_v1_external_kms_id_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -14099,7 +14099,7 @@ class DefaultApi:
         return self.api_v1_external_kms_id_get_with_http_info(id, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_external_kms_id_get_with_http_info(self, id : constr(strict=True, min_length=1), **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_external_kms_id_get_with_http_info(self, id : Annotated[str, StringConstraints(strict=True, min_length=1)], **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_external_kms_id_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -14208,7 +14208,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_external_kms_id_patch(self, id : constr(strict=True, min_length=1), api_v1_external_kms_id_patch_request : ApiV1ExternalKmsIdPatchRequest, **kwargs) -> ApiV1ExternalKmsPost200Response:  # noqa: E501
+    def api_v1_external_kms_id_patch(self, id : Annotated[str, StringConstraints(strict=True, min_length=1)], api_v1_external_kms_id_patch_request : ApiV1ExternalKmsIdPatchRequest, **kwargs) -> ApiV1ExternalKmsPost200Response:  # noqa: E501
         """api_v1_external_kms_id_patch  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -14239,7 +14239,7 @@ class DefaultApi:
         return self.api_v1_external_kms_id_patch_with_http_info(id, api_v1_external_kms_id_patch_request, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_external_kms_id_patch_with_http_info(self, id : constr(strict=True, min_length=1), api_v1_external_kms_id_patch_request : ApiV1ExternalKmsIdPatchRequest, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_external_kms_id_patch_with_http_info(self, id : Annotated[str, StringConstraints(strict=True, min_length=1)], api_v1_external_kms_id_patch_request : ApiV1ExternalKmsIdPatchRequest, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_external_kms_id_patch  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -14506,7 +14506,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_external_kms_slug_slug_get(self, slug : constr(strict=True, min_length=1), **kwargs) -> ApiV1ExternalKmsIdGet200Response:  # noqa: E501
+    def api_v1_external_kms_slug_slug_get(self, slug : Annotated[str, StringConstraints(strict=True, min_length=1)], **kwargs) -> ApiV1ExternalKmsIdGet200Response:  # noqa: E501
         """api_v1_external_kms_slug_slug_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -14535,7 +14535,7 @@ class DefaultApi:
         return self.api_v1_external_kms_slug_slug_get_with_http_info(slug, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_external_kms_slug_slug_get_with_http_info(self, slug : constr(strict=True, min_length=1), **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_external_kms_slug_slug_get_with_http_info(self, slug : Annotated[str, StringConstraints(strict=True, min_length=1)], **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_external_kms_slug_slug_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -15988,7 +15988,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_groups_slug_users_get(self, slug : Annotated[StrictStr, Field(..., description="The slug of the group to list users for")], offset : Annotated[Optional[Union[confloat(le=100, ge=0, strict=True), conint(le=100.0, ge=0.0, strict=True)]], Field(description="The offset to start from. If you enter 10, it will start from the 10th user.")] = None, limit : Annotated[Optional[Union[confloat(le=100, ge=1, strict=True), conint(le=100.0, ge=1.0, strict=True)]], Field(description="The number of users to return.")] = None, username : Annotated[Optional[StrictStr], Field(description="The username to search for.")] = None, **kwargs) -> ApiV1GroupsSlugUsersGet200Response:  # noqa: E501
+    def api_v1_groups_slug_users_get(self, slug : Annotated[StrictStr, Field(..., description="The slug of the group to list users for")], offset : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=0, strict=True)], Annotated[int, Field(le=100.0, ge=0.0, strict=True)]]], Field(description="The offset to start from. If you enter 10, it will start from the 10th user.")] = None, limit : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100.0, ge=1.0, strict=True)]]], Field(description="The number of users to return.")] = None, username : Annotated[Optional[StrictStr], Field(description="The username to search for.")] = None, **kwargs) -> ApiV1GroupsSlugUsersGet200Response:  # noqa: E501
         """api_v1_groups_slug_users_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -16023,7 +16023,7 @@ class DefaultApi:
         return self.api_v1_groups_slug_users_get_with_http_info(slug, offset, limit, username, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_groups_slug_users_get_with_http_info(self, slug : Annotated[StrictStr, Field(..., description="The slug of the group to list users for")], offset : Annotated[Optional[Union[confloat(le=100, ge=0, strict=True), conint(le=100.0, ge=0.0, strict=True)]], Field(description="The offset to start from. If you enter 10, it will start from the 10th user.")] = None, limit : Annotated[Optional[Union[confloat(le=100, ge=1, strict=True), conint(le=100.0, ge=1.0, strict=True)]], Field(description="The number of users to return.")] = None, username : Annotated[Optional[StrictStr], Field(description="The username to search for.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_groups_slug_users_get_with_http_info(self, slug : Annotated[StrictStr, Field(..., description="The slug of the group to list users for")], offset : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=0, strict=True)], Annotated[int, Field(le=100.0, ge=0.0, strict=True)]]], Field(description="The offset to start from. If you enter 10, it will start from the 10th user.")] = None, limit : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100.0, ge=1.0, strict=True)]]], Field(description="The number of users to return.")] = None, username : Annotated[Optional[StrictStr], Field(description="The username to search for.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_groups_slug_users_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -22928,7 +22928,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_organization_admin_projects_get(self, search : Optional[StrictStr] = None, offset : Optional[Union[StrictFloat, StrictInt]] = None, limit : Optional[Union[confloat(le=100, strict=True), conint(le=100.0, strict=True)]] = None, **kwargs) -> ApiV1OrganizationAdminProjectsGet200Response:  # noqa: E501
+    def api_v1_organization_admin_projects_get(self, search : Optional[StrictStr] = None, offset : Optional[Union[StrictFloat, StrictInt]] = None, limit : Optional[Union[Annotated[float, Field(le=100, strict=True)], Annotated[int, Field(le=100.0, strict=True)]]] = None, **kwargs) -> ApiV1OrganizationAdminProjectsGet200Response:  # noqa: E501
         """api_v1_organization_admin_projects_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -22961,7 +22961,7 @@ class DefaultApi:
         return self.api_v1_organization_admin_projects_get_with_http_info(search, offset, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_organization_admin_projects_get_with_http_info(self, search : Optional[StrictStr] = None, offset : Optional[Union[StrictFloat, StrictInt]] = None, limit : Optional[Union[confloat(le=100, strict=True), conint(le=100.0, strict=True)]] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_organization_admin_projects_get_with_http_info(self, search : Optional[StrictStr] = None, offset : Optional[Union[StrictFloat, StrictInt]] = None, limit : Optional[Union[Annotated[float, Field(le=100, strict=True)], Annotated[int, Field(le=100.0, strict=True)]]] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_organization_admin_projects_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -37478,7 +37478,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_secret_sharing_get(self, offset : Optional[Union[confloat(le=100, ge=0, strict=True), conint(le=100.0, ge=0.0, strict=True)]] = None, limit : Optional[Union[confloat(le=100, ge=1, strict=True), conint(le=100.0, ge=1.0, strict=True)]] = None, **kwargs) -> ApiV1SecretSharingGet200Response:  # noqa: E501
+    def api_v1_secret_sharing_get(self, offset : Optional[Union[Annotated[float, Field(le=100, ge=0, strict=True)], Annotated[int, Field(le=100.0, ge=0.0, strict=True)]]] = None, limit : Optional[Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100.0, ge=1.0, strict=True)]]] = None, **kwargs) -> ApiV1SecretSharingGet200Response:  # noqa: E501
         """api_v1_secret_sharing_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -37509,7 +37509,7 @@ class DefaultApi:
         return self.api_v1_secret_sharing_get_with_http_info(offset, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_secret_sharing_get_with_http_info(self, offset : Optional[Union[confloat(le=100, ge=0, strict=True), conint(le=100.0, ge=0.0, strict=True)]] = None, limit : Optional[Union[confloat(le=100, ge=1, strict=True), conint(le=100.0, ge=1.0, strict=True)]] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_secret_sharing_get_with_http_info(self, offset : Optional[Union[Annotated[float, Field(le=100, ge=0, strict=True)], Annotated[int, Field(le=100.0, ge=0.0, strict=True)]]] = None, limit : Optional[Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100.0, ge=1.0, strict=True)]]] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_secret_sharing_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -37769,7 +37769,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_secret_sharing_public_id_get(self, hashed_hex : constr(strict=True, min_length=1), id : StrictStr, **kwargs) -> ApiV1SecretSharingPublicIdGet200Response:  # noqa: E501
+    def api_v1_secret_sharing_public_id_get(self, hashed_hex : Annotated[str, StringConstraints(strict=True, min_length=1)], id : StrictStr, **kwargs) -> ApiV1SecretSharingPublicIdGet200Response:  # noqa: E501
         """api_v1_secret_sharing_public_id_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -37800,7 +37800,7 @@ class DefaultApi:
         return self.api_v1_secret_sharing_public_id_get_with_http_info(hashed_hex, id, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_secret_sharing_public_id_get_with_http_info(self, hashed_hex : constr(strict=True, min_length=1), id : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_secret_sharing_public_id_get_with_http_info(self, hashed_hex : Annotated[str, StringConstraints(strict=True, min_length=1)], id : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_secret_sharing_public_id_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -47454,7 +47454,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v1_workspace_workspace_id_memberships_details_post(self, workspace_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the project to get memberships from.")], api_v1_workspace_workspace_id_memberships_details_post_request : ApiV1WorkspaceWorkspaceIdMembershipsDetailsPostRequest, **kwargs) -> ApiV1WorkspaceWorkspaceIdMembershipsDetailsPost200Response:  # noqa: E501
+    def api_v1_workspace_workspace_id_memberships_details_post(self, workspace_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the project to get memberships from.")], api_v1_workspace_workspace_id_memberships_details_post_request : ApiV1WorkspaceWorkspaceIdMembershipsDetailsPostRequest, **kwargs) -> ApiV1WorkspaceWorkspaceIdMembershipsDetailsPost200Response:  # noqa: E501
         """api_v1_workspace_workspace_id_memberships_details_post  # noqa: E501
 
         Return project user memberships  # noqa: E501
@@ -47486,7 +47486,7 @@ class DefaultApi:
         return self.api_v1_workspace_workspace_id_memberships_details_post_with_http_info(workspace_id, api_v1_workspace_workspace_id_memberships_details_post_request, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v1_workspace_workspace_id_memberships_details_post_with_http_info(self, workspace_id : Annotated[constr(strict=True, min_length=1), Field(..., description="The ID of the project to get memberships from.")], api_v1_workspace_workspace_id_memberships_details_post_request : ApiV1WorkspaceWorkspaceIdMembershipsDetailsPostRequest, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v1_workspace_workspace_id_memberships_details_post_with_http_info(self, workspace_id : Annotated[Annotated[str, StringConstraints(strict=True, min_length=1)], Field(..., description="The ID of the project to get memberships from.")], api_v1_workspace_workspace_id_memberships_details_post_request : ApiV1WorkspaceWorkspaceIdMembershipsDetailsPostRequest, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v1_workspace_workspace_id_memberships_details_post  # noqa: E501
 
         Return project user memberships  # noqa: E501
@@ -56081,7 +56081,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v2_workspace_slug_cas_get(self, slug : Annotated[constr(strict=True, max_length=36, min_length=5), Field(..., description="The slug of the project to list CAs for.")], status : Annotated[Optional[StrictStr], Field(description="The status of the CA to filter by.")] = None, friendly_name : Annotated[Optional[StrictStr], Field(description="The friendly name of the CA to filter by.")] = None, common_name : Annotated[Optional[StrictStr], Field(description="The common name of the CA to filter by.")] = None, offset : Annotated[Optional[Union[confloat(le=100, ge=0, strict=True), conint(le=100.0, ge=0.0, strict=True)]], Field(description="The offset to start from. If you enter 10, it will start from the 10th CA.")] = None, limit : Annotated[Optional[Union[confloat(le=100, ge=1, strict=True), conint(le=100.0, ge=1.0, strict=True)]], Field(description="The number of CAs to return.")] = None, **kwargs) -> ApiV2WorkspaceSlugCasGet200Response:  # noqa: E501
+    def api_v2_workspace_slug_cas_get(self, slug : Annotated[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)], Field(..., description="The slug of the project to list CAs for.")], status : Annotated[Optional[StrictStr], Field(description="The status of the CA to filter by.")] = None, friendly_name : Annotated[Optional[StrictStr], Field(description="The friendly name of the CA to filter by.")] = None, common_name : Annotated[Optional[StrictStr], Field(description="The common name of the CA to filter by.")] = None, offset : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=0, strict=True)], Annotated[int, Field(le=100.0, ge=0.0, strict=True)]]], Field(description="The offset to start from. If you enter 10, it will start from the 10th CA.")] = None, limit : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100.0, ge=1.0, strict=True)]]], Field(description="The number of CAs to return.")] = None, **kwargs) -> ApiV2WorkspaceSlugCasGet200Response:  # noqa: E501
         """api_v2_workspace_slug_cas_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -56120,7 +56120,7 @@ class DefaultApi:
         return self.api_v2_workspace_slug_cas_get_with_http_info(slug, status, friendly_name, common_name, offset, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v2_workspace_slug_cas_get_with_http_info(self, slug : Annotated[constr(strict=True, max_length=36, min_length=5), Field(..., description="The slug of the project to list CAs for.")], status : Annotated[Optional[StrictStr], Field(description="The status of the CA to filter by.")] = None, friendly_name : Annotated[Optional[StrictStr], Field(description="The friendly name of the CA to filter by.")] = None, common_name : Annotated[Optional[StrictStr], Field(description="The common name of the CA to filter by.")] = None, offset : Annotated[Optional[Union[confloat(le=100, ge=0, strict=True), conint(le=100.0, ge=0.0, strict=True)]], Field(description="The offset to start from. If you enter 10, it will start from the 10th CA.")] = None, limit : Annotated[Optional[Union[confloat(le=100, ge=1, strict=True), conint(le=100.0, ge=1.0, strict=True)]], Field(description="The number of CAs to return.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v2_workspace_slug_cas_get_with_http_info(self, slug : Annotated[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)], Field(..., description="The slug of the project to list CAs for.")], status : Annotated[Optional[StrictStr], Field(description="The status of the CA to filter by.")] = None, friendly_name : Annotated[Optional[StrictStr], Field(description="The friendly name of the CA to filter by.")] = None, common_name : Annotated[Optional[StrictStr], Field(description="The common name of the CA to filter by.")] = None, offset : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=0, strict=True)], Annotated[int, Field(le=100.0, ge=0.0, strict=True)]]], Field(description="The offset to start from. If you enter 10, it will start from the 10th CA.")] = None, limit : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100.0, ge=1.0, strict=True)]]], Field(description="The number of CAs to return.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v2_workspace_slug_cas_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -56259,7 +56259,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v2_workspace_slug_certificates_get(self, slug : Annotated[constr(strict=True, max_length=36, min_length=5), Field(..., description="The slug of the project to list certificates for.")], friendly_name : Annotated[Optional[StrictStr], Field(description="The friendly name of the certificate to filter by.")] = None, common_name : Annotated[Optional[StrictStr], Field(description="The common name of the certificate to filter by.")] = None, offset : Annotated[Optional[Union[confloat(le=100, ge=0, strict=True), conint(le=100.0, ge=0.0, strict=True)]], Field(description="The offset to start from. If you enter 10, it will start from the 10th certificate.")] = None, limit : Annotated[Optional[Union[confloat(le=100, ge=1, strict=True), conint(le=100.0, ge=1.0, strict=True)]], Field(description="The number of certificates to return.")] = None, **kwargs) -> ApiV2WorkspaceSlugCertificatesGet200Response:  # noqa: E501
+    def api_v2_workspace_slug_certificates_get(self, slug : Annotated[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)], Field(..., description="The slug of the project to list certificates for.")], friendly_name : Annotated[Optional[StrictStr], Field(description="The friendly name of the certificate to filter by.")] = None, common_name : Annotated[Optional[StrictStr], Field(description="The common name of the certificate to filter by.")] = None, offset : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=0, strict=True)], Annotated[int, Field(le=100.0, ge=0.0, strict=True)]]], Field(description="The offset to start from. If you enter 10, it will start from the 10th certificate.")] = None, limit : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100.0, ge=1.0, strict=True)]]], Field(description="The number of certificates to return.")] = None, **kwargs) -> ApiV2WorkspaceSlugCertificatesGet200Response:  # noqa: E501
         """api_v2_workspace_slug_certificates_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -56296,7 +56296,7 @@ class DefaultApi:
         return self.api_v2_workspace_slug_certificates_get_with_http_info(slug, friendly_name, common_name, offset, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v2_workspace_slug_certificates_get_with_http_info(self, slug : Annotated[constr(strict=True, max_length=36, min_length=5), Field(..., description="The slug of the project to list certificates for.")], friendly_name : Annotated[Optional[StrictStr], Field(description="The friendly name of the certificate to filter by.")] = None, common_name : Annotated[Optional[StrictStr], Field(description="The common name of the certificate to filter by.")] = None, offset : Annotated[Optional[Union[confloat(le=100, ge=0, strict=True), conint(le=100.0, ge=0.0, strict=True)]], Field(description="The offset to start from. If you enter 10, it will start from the 10th certificate.")] = None, limit : Annotated[Optional[Union[confloat(le=100, ge=1, strict=True), conint(le=100.0, ge=1.0, strict=True)]], Field(description="The number of certificates to return.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v2_workspace_slug_certificates_get_with_http_info(self, slug : Annotated[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)], Field(..., description="The slug of the project to list certificates for.")], friendly_name : Annotated[Optional[StrictStr], Field(description="The friendly name of the certificate to filter by.")] = None, common_name : Annotated[Optional[StrictStr], Field(description="The common name of the certificate to filter by.")] = None, offset : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=0, strict=True)], Annotated[int, Field(le=100.0, ge=0.0, strict=True)]]], Field(description="The offset to start from. If you enter 10, it will start from the 10th certificate.")] = None, limit : Annotated[Optional[Union[Annotated[float, Field(le=100, ge=1, strict=True)], Annotated[int, Field(le=100.0, ge=1.0, strict=True)]]], Field(description="The number of certificates to return.")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v2_workspace_slug_certificates_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -56429,7 +56429,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v2_workspace_slug_delete(self, slug : Annotated[constr(strict=True, max_length=36, min_length=5), Field(..., description="The slug of the project to delete.")], **kwargs) -> ApiV1OrganizationAdminProjectsGet200ResponseProjectsInner:  # noqa: E501
+    def api_v2_workspace_slug_delete(self, slug : Annotated[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)], Field(..., description="The slug of the project to delete.")], **kwargs) -> ApiV1OrganizationAdminProjectsGet200ResponseProjectsInner:  # noqa: E501
         """api_v2_workspace_slug_delete  # noqa: E501
 
         Delete project  # noqa: E501
@@ -56459,7 +56459,7 @@ class DefaultApi:
         return self.api_v2_workspace_slug_delete_with_http_info(slug, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v2_workspace_slug_delete_with_http_info(self, slug : Annotated[constr(strict=True, max_length=36, min_length=5), Field(..., description="The slug of the project to delete.")], **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v2_workspace_slug_delete_with_http_info(self, slug : Annotated[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)], Field(..., description="The slug of the project to delete.")], **kwargs) -> ApiResponse:  # noqa: E501
         """api_v2_workspace_slug_delete  # noqa: E501
 
         Delete project  # noqa: E501
@@ -56569,7 +56569,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v2_workspace_slug_get(self, slug : Annotated[constr(strict=True, max_length=36, min_length=5), Field(..., description="The slug of the project to get.")], **kwargs) -> ApiV1WorkspaceGet200ResponseWorkspacesInner:  # noqa: E501
+    def api_v2_workspace_slug_get(self, slug : Annotated[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)], Field(..., description="The slug of the project to get.")], **kwargs) -> ApiV1WorkspaceGet200ResponseWorkspacesInner:  # noqa: E501
         """api_v2_workspace_slug_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -56598,7 +56598,7 @@ class DefaultApi:
         return self.api_v2_workspace_slug_get_with_http_info(slug, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v2_workspace_slug_get_with_http_info(self, slug : Annotated[constr(strict=True, max_length=36, min_length=5), Field(..., description="The slug of the project to get.")], **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v2_workspace_slug_get_with_http_info(self, slug : Annotated[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)], Field(..., description="The slug of the project to get.")], **kwargs) -> ApiResponse:  # noqa: E501
         """api_v2_workspace_slug_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -56707,7 +56707,7 @@ class DefaultApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def api_v2_workspace_slug_patch(self, slug : Annotated[constr(strict=True, max_length=36, min_length=5), Field(..., description="The slug of the project to update.")], api_v2_workspace_slug_patch_request : Optional[ApiV2WorkspaceSlugPatchRequest] = None, **kwargs) -> ApiV1OrganizationAdminProjectsGet200ResponseProjectsInner:  # noqa: E501
+    def api_v2_workspace_slug_patch(self, slug : Annotated[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)], Field(..., description="The slug of the project to update.")], api_v2_workspace_slug_patch_request : Optional[ApiV2WorkspaceSlugPatchRequest] = None, **kwargs) -> ApiV1OrganizationAdminProjectsGet200ResponseProjectsInner:  # noqa: E501
         """api_v2_workspace_slug_patch  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -56738,7 +56738,7 @@ class DefaultApi:
         return self.api_v2_workspace_slug_patch_with_http_info(slug, api_v2_workspace_slug_patch_request, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def api_v2_workspace_slug_patch_with_http_info(self, slug : Annotated[constr(strict=True, max_length=36, min_length=5), Field(..., description="The slug of the project to update.")], api_v2_workspace_slug_patch_request : Optional[ApiV2WorkspaceSlugPatchRequest] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def api_v2_workspace_slug_patch_with_http_info(self, slug : Annotated[Annotated[str, StringConstraints(strict=True, max_length=36, min_length=5)], Field(..., description="The slug of the project to update.")], api_v2_workspace_slug_patch_request : Optional[ApiV2WorkspaceSlugPatchRequest] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """api_v2_workspace_slug_patch  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an

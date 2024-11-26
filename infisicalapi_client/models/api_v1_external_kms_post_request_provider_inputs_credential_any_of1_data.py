@@ -19,20 +19,17 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field
+from typing_extensions import Annotated
 
 class ApiV1ExternalKmsPostRequestProviderInputsCredentialAnyOf1Data(BaseModel):
     """
     ApiV1ExternalKmsPostRequestProviderInputsCredentialAnyOf1Data
     """
-    assume_role_arn: constr(strict=True, min_length=1) = Field(default=..., alias="assumeRoleArn", description="AWS user role to be assumed by infisical")
-    external_id: Optional[constr(strict=True, min_length=1)] = Field(default=None, alias="externalId", description="AWS assume role external id for furthur security in authentication")
+    assume_role_arn: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="assumeRoleArn", description="AWS user role to be assumed by infisical")
+    external_id: Optional[Annotated[str, StringConstraints(strict=True, min_length=1)]] = Field(default=None, alias="externalId", description="AWS assume role external id for furthur security in authentication")
     __properties = ["assumeRoleArn", "externalId"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

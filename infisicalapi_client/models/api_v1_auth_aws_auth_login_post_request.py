@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV1AuthAwsAuthLoginPostRequest(BaseModel):
     """
@@ -30,11 +30,7 @@ class ApiV1AuthAwsAuthLoginPostRequest(BaseModel):
     iam_request_body: StrictStr = Field(default=..., alias="iamRequestBody", description="The base64-encoded body of the signed request. Most likely, the base64-encoding of Action=GetCallerIdentity&Version=2011-06-15.")
     iam_request_headers: StrictStr = Field(default=..., alias="iamRequestHeaders", description="The base64-encoded headers of the sts:GetCallerIdentity signed request.")
     __properties = ["identityId", "iamHttpRequestMethod", "iamRequestBody", "iamRequestHeaders"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

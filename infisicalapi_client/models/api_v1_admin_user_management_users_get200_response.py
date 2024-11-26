@@ -19,20 +19,17 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, conlist
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_admin_user_management_users_get200_response_users_inner import ApiV1AdminUserManagementUsersGet200ResponseUsersInner
+from typing_extensions import Annotated
 
 class ApiV1AdminUserManagementUsersGet200Response(BaseModel):
     """
     ApiV1AdminUserManagementUsersGet200Response
     """
-    users: conlist(ApiV1AdminUserManagementUsersGet200ResponseUsersInner) = Field(...)
+    users: Annotated[List[ApiV1AdminUserManagementUsersGet200ResponseUsersInner], Field()] = Field(...)
     __properties = ["users"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

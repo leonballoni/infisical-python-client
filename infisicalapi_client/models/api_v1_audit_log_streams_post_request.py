@@ -19,21 +19,18 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, conlist, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_audit_log_streams_post_request_headers_inner import ApiV1AuditLogStreamsPostRequestHeadersInner
+from typing_extensions import Annotated
 
 class ApiV1AuditLogStreamsPostRequest(BaseModel):
     """
     ApiV1AuditLogStreamsPostRequest
     """
-    url: constr(strict=True, min_length=1) = Field(default=..., description="The HTTP URL to push logs to.")
-    headers: Optional[conlist(ApiV1AuditLogStreamsPostRequestHeadersInner)] = Field(default=None, description="The HTTP headers attached for the external prrovider requests.")
+    url: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., description="The HTTP URL to push logs to.")
+    headers: Optional[Annotated[List[ApiV1AuditLogStreamsPostRequestHeadersInner], Field()]] = Field(default=None, description="The HTTP headers attached for the external prrovider requests.")
     __properties = ["url", "headers"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

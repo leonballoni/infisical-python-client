@@ -18,10 +18,11 @@ import json
 import pprint
 import re  # noqa: F401
 
-from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, conlist, constr, validator
+from typing import Literal, List, Optional
+from pydantic import field_validator, StringConstraints, ConfigDict, BaseModel, Field, StrictStr, ValidationError
 from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
+from typing_extensions import Annotated
 
 APIV1WORKSPACEPROJECTSLUGROLESPOST200RESPONSEROLEPERMISSIONSINNERSUBJECT_ANY_OF_SCHEMAS = ["List[str]", "str"]
 
@@ -31,17 +32,15 @@ class ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInnerSubject(B
     """
 
     # data type: str
-    anyof_schema_1_validator: Optional[constr(strict=True, min_length=1)] = None
+    anyof_schema_1_validator: Optional[Annotated[str, StringConstraints(strict=True, min_length=1)]] = None
     # data type: List[str]
-    anyof_schema_2_validator: Optional[conlist(StrictStr)] = None
+    anyof_schema_2_validator: Optional[Annotated[List[StrictStr], Field()]] = None
     if TYPE_CHECKING:
         actual_instance: Union[List[str], str]
     else:
-        actual_instance: Any
-    any_of_schemas: List[str] = Field(APIV1WORKSPACEPROJECTSLUGROLESPOST200RESPONSEROLEPERMISSIONSINNERSUBJECT_ANY_OF_SCHEMAS, const=True)
-
-    class Config:
-        validate_assignment = True
+        actual_instance: Any = None
+    any_of_schemas: Literal[APIV1WORKSPACEPROJECTSLUGROLESPOST200RESPONSEROLEPERMISSIONSINNERSUBJECT_ANY_OF_SCHEMAS] = APIV1WORKSPACEPROJECTSLUGROLESPOST200RESPONSEROLEPERMISSIONSINNERSUBJECT_ANY_OF_SCHEMAS
+    model_config = ConfigDict(validate_assignment=True)
 
     def __init__(self, *args, **kwargs) -> None:
         if args:
@@ -53,7 +52,8 @@ class ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInnerSubject(B
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @field_validator('actual_instance')
+    @classmethod
     def actual_instance_must_validate_anyof(cls, v):
         instance = ApiV1WorkspaceProjectSlugRolesPost200ResponseRolePermissionsInnerSubject.construct()
         error_messages = []

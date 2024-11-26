@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV1SsoOidcConfigPostRequest(BaseModel):
     """
@@ -39,17 +39,14 @@ class ApiV1SsoOidcConfigPostRequest(BaseModel):
     org_slug: StrictStr = Field(default=..., alias="orgSlug")
     __properties = ["allowedEmailDomains", "configurationType", "issuer", "discoveryURL", "authorizationEndpoint", "jwksUri", "tokenEndpoint", "userinfoEndpoint", "clientId", "clientSecret", "isActive", "orgSlug"]
 
-    @validator('configuration_type')
+    @field_validator('configuration_type')
+    @classmethod
     def configuration_type_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('custom', 'discoveryURL'):
             raise ValueError("must be one of enum values ('custom', 'discoveryURL')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

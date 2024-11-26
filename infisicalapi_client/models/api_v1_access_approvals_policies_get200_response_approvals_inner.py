@@ -19,8 +19,9 @@ import json
 
 from datetime import datetime
 from typing import List, Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt, StrictStr
 from infisicalapi_client.models.api_v1_secret_approvals_get200_response_approvals_inner_environment import ApiV1SecretApprovalsGet200ResponseApprovalsInnerEnvironment
+from typing_extensions import Annotated
 
 class ApiV1AccessApprovalsPoliciesGet200ResponseApprovalsInner(BaseModel):
     """
@@ -36,13 +37,9 @@ class ApiV1AccessApprovalsPoliciesGet200ResponseApprovalsInner(BaseModel):
     enforcement_level: Optional[StrictStr] = Field(default='hard', alias="enforcementLevel")
     environment: ApiV1SecretApprovalsGet200ResponseApprovalsInnerEnvironment = Field(...)
     project_id: StrictStr = Field(default=..., alias="projectId")
-    approvers: conlist(StrictStr) = Field(...)
+    approvers: Annotated[List[StrictStr], Field()] = Field(...)
     __properties = ["id", "name", "secretPath", "approvals", "envId", "createdAt", "updatedAt", "enforcementLevel", "environment", "projectId", "approvers"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 
 class ApiV3AuthLogin1PostRequest(BaseModel):
     """
@@ -29,11 +29,7 @@ class ApiV3AuthLogin1PostRequest(BaseModel):
     provider_auth_token: Optional[StrictStr] = Field(default=None, alias="providerAuthToken")
     client_public_key: StrictStr = Field(default=..., alias="clientPublicKey")
     __properties = ["email", "providerAuthToken", "clientPublicKey"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

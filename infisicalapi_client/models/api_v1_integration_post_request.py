@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_integration_post_request_metadata import ApiV1IntegrationPostRequestMetadata
 
 class ApiV1IntegrationPostRequest(BaseModel):
@@ -43,11 +43,7 @@ class ApiV1IntegrationPostRequest(BaseModel):
     scope: Optional[StrictStr] = Field(default=None, description="Scope of the provider. Used by Github, Qovery")
     metadata: Optional[ApiV1IntegrationPostRequestMetadata] = None
     __properties = ["integrationAuthId", "app", "isActive", "appId", "secretPath", "sourceEnvironment", "targetEnvironment", "targetEnvironmentId", "targetService", "targetServiceId", "owner", "url", "path", "region", "scope", "metadata"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

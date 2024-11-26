@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV1IntegrationAuthIntegrationOptionsGet200ResponseIntegrationOptionsInner(BaseModel):
     """
@@ -34,11 +34,7 @@ class ApiV1IntegrationAuthIntegrationOptionsGet200ResponseIntegrationOptionsInne
     client_id: Optional[StrictStr] = Field(default=None, alias="clientId")
     docs_link: Optional[StrictStr] = Field(default=None, alias="docsLink")
     __properties = ["name", "slug", "clientSlug", "image", "isAvailable", "type", "clientId", "docsLink"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

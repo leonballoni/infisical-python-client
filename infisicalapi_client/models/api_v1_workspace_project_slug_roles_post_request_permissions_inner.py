@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v1_workspace_project_slug_roles_post_request_permissions_inner_conditions import ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInnerConditions
 
 class ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner(BaseModel):
@@ -31,24 +31,22 @@ class ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner(BaseModel):
     conditions: Optional[ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInnerConditions] = None
     __properties = ["action", "subject", "conditions"]
 
-    @validator('action')
+    @field_validator('action')
+    @classmethod
     def action_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('read', 'create', 'edit', 'delete'):
             raise ValueError("must be one of enum values ('read', 'create', 'edit', 'delete')")
         return value
 
-    @validator('subject')
+    @field_validator('subject')
+    @classmethod
     def subject_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('role', 'member', 'groups', 'settings', 'integrations', 'webhooks', 'service-tokens', 'environments', 'tags', 'audit-logs', 'ip-allowlist', 'workspace', 'secrets', 'secret-folders', 'secret-rollback', 'secret-approval', 'secret-rotation', 'identity', 'certificate-authorities', 'certificates', 'kms'):
             raise ValueError("must be one of enum values ('role', 'member', 'groups', 'settings', 'integrations', 'webhooks', 'service-tokens', 'environments', 'tags', 'audit-logs', 'ip-allowlist', 'workspace', 'secrets', 'secret-folders', 'secret-rollback', 'secret-approval', 'secret-rotation', 'identity', 'certificate-authorities', 'certificates', 'kms')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

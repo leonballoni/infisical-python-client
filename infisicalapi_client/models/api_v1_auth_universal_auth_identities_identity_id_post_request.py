@@ -19,24 +19,21 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, conint, conlist
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_auth_token_auth_identities_identity_id_post_request_access_token_trusted_ips_inner import ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner
+from typing_extensions import Annotated
 
 class ApiV1AuthUniversalAuthIdentitiesIdentityIdPostRequest(BaseModel):
     """
     ApiV1AuthUniversalAuthIdentitiesIdentityIdPostRequest
     """
-    client_secret_trusted_ips: Optional[conlist(ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner, min_items=1)] = Field(default=None, alias="clientSecretTrustedIps", description="A list of IPs or CIDR ranges that the Client Secret can be used from together with the Client ID to get back an access token. You can use 0.0.0.0/0, to allow usage from any network address.")
-    access_token_trusted_ips: Optional[conlist(ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner, min_items=1)] = Field(default=None, alias="accessTokenTrustedIps", description="A list of IPs or CIDR ranges that access tokens can be used from. You can use 0.0.0.0/0, to allow usage from any network address.")
-    access_token_ttl: Optional[conint(strict=True, le=315360000, ge=1)] = Field(default=2592000, alias="accessTokenTTL", description="The lifetime for an access token in seconds. This value will be referenced at renewal time.")
-    access_token_max_ttl: Optional[conint(strict=True, le=315360000)] = Field(default=2592000, alias="accessTokenMaxTTL", description="The maximum lifetime for an access token in seconds. This value will be referenced at renewal time.")
-    access_token_num_uses_limit: Optional[conint(strict=True, ge=0)] = Field(default=0, alias="accessTokenNumUsesLimit", description="The maximum number of times that an access token can be used; a value of 0 implies infinite number of uses.")
+    client_secret_trusted_ips: Optional[Annotated[List[ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner], Field(min_length=1)]] = Field(default=None, alias="clientSecretTrustedIps", description="A list of IPs or CIDR ranges that the Client Secret can be used from together with the Client ID to get back an access token. You can use 0.0.0.0/0, to allow usage from any network address.")
+    access_token_trusted_ips: Optional[Annotated[List[ApiV1AuthTokenAuthIdentitiesIdentityIdPostRequestAccessTokenTrustedIpsInner], Field(min_length=1)]] = Field(default=None, alias="accessTokenTrustedIps", description="A list of IPs or CIDR ranges that access tokens can be used from. You can use 0.0.0.0/0, to allow usage from any network address.")
+    access_token_ttl: Optional[Annotated[int, Field(strict=True, le=315360000, ge=1)]] = Field(default=2592000, alias="accessTokenTTL", description="The lifetime for an access token in seconds. This value will be referenced at renewal time.")
+    access_token_max_ttl: Optional[Annotated[int, Field(strict=True, le=315360000)]] = Field(default=2592000, alias="accessTokenMaxTTL", description="The maximum lifetime for an access token in seconds. This value will be referenced at renewal time.")
+    access_token_num_uses_limit: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, alias="accessTokenNumUsesLimit", description="The maximum number of times that an access token can be used; a value of 0 implies infinite number of uses.")
     __properties = ["clientSecretTrustedIps", "accessTokenTrustedIps", "accessTokenTTL", "accessTokenMaxTTL", "accessTokenNumUsesLimit"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_identities_identity_id_identity_memberships_get200_response_identity_memberships_inner import ApiV1IdentitiesIdentityIdIdentityMembershipsGet200ResponseIdentityMembershipsInner
 
 class ApiV2WorkspaceProjectIdIdentityMembershipsIdentityIdGet200Response(BaseModel):
@@ -28,11 +28,7 @@ class ApiV2WorkspaceProjectIdIdentityMembershipsIdentityIdGet200Response(BaseMod
     """
     identity_membership: ApiV1IdentitiesIdentityIdIdentityMembershipsGet200ResponseIdentityMembershipsInner = Field(default=..., alias="identityMembership")
     __properties = ["identityMembership"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

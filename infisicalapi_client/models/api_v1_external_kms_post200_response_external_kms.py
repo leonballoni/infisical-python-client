@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 from infisicalapi_client.models.api_v1_external_kms_post200_response_external_kms_external import ApiV1ExternalKmsPost200ResponseExternalKmsExternal
 
 class ApiV1ExternalKmsPost200ResponseExternalKms(BaseModel):
@@ -36,11 +36,7 @@ class ApiV1ExternalKmsPost200ResponseExternalKms(BaseModel):
     updated_at: datetime = Field(default=..., alias="updatedAt")
     external: ApiV1ExternalKmsPost200ResponseExternalKmsExternal = Field(...)
     __properties = ["id", "description", "isDisabled", "isReserved", "orgId", "slug", "createdAt", "updatedAt", "external"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

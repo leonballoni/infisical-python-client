@@ -19,7 +19,8 @@ import json
 
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1OrganizationOrganizationIdPermissionsGet200ResponseMembership(BaseModel):
     """
@@ -34,14 +35,10 @@ class ApiV1OrganizationOrganizationIdPermissionsGet200ResponseMembership(BaseMod
     user_id: Optional[StrictStr] = Field(default=None, alias="userId")
     org_id: StrictStr = Field(default=..., alias="orgId")
     role_id: Optional[StrictStr] = Field(default=None, alias="roleId")
-    project_favorites: Optional[conlist(StrictStr)] = Field(default=None, alias="projectFavorites")
+    project_favorites: Optional[Annotated[List[StrictStr], Field()]] = Field(default=None, alias="projectFavorites")
     is_active: Optional[StrictBool] = Field(default=True, alias="isActive")
     __properties = ["id", "role", "status", "inviteEmail", "createdAt", "updatedAt", "userId", "orgId", "roleId", "projectFavorites", "isActive"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

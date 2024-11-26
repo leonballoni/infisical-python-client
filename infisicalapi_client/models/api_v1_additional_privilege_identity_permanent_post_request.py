@@ -19,25 +19,22 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, conlist, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v1_additional_privilege_identity_permanent_post_request_privilege_permission import ApiV1AdditionalPrivilegeIdentityPermanentPostRequestPrivilegePermission
 from infisicalapi_client.models.api_v1_workspace_project_slug_roles_post_request_permissions_inner import ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner
+from typing_extensions import Annotated
 
 class ApiV1AdditionalPrivilegeIdentityPermanentPostRequest(BaseModel):
     """
     ApiV1AdditionalPrivilegeIdentityPermanentPostRequest
     """
-    identity_id: constr(strict=True, min_length=1) = Field(default=..., alias="identityId", description="The ID of the identity to create.")
-    project_slug: constr(strict=True, min_length=1) = Field(default=..., alias="projectSlug", description="The slug of the project of the identity in.")
-    slug: Optional[constr(strict=True, max_length=60, min_length=1)] = Field(default=None, description="The slug of the privilege to create.")
-    permissions: Optional[conlist(ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner)] = Field(default=None, description="@deprecated - use privilegePermission The permission object for the privilege. - Read secrets ``` { \"permissions\": [{\"action\": \"read\", \"subject\": \"secrets\"]} ``` - Read and Write secrets ``` { \"permissions\": [{\"action\": \"read\", \"subject\": \"secrets\"], {\"action\": \"write\", \"subject\": \"secrets\"]} ``` - Read secrets scoped to an environment and secret path ``` - { \"permissions\": [{\"action\": \"read\", \"subject\": \"secrets\", \"conditions\": { \"environment\": \"dev\", \"secretPath\": { \"$glob\": \"/\" } }}] } ``` ")
+    identity_id: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="identityId", description="The ID of the identity to create.")
+    project_slug: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="projectSlug", description="The slug of the project of the identity in.")
+    slug: Optional[Annotated[str, StringConstraints(strict=True, max_length=60, min_length=1)]] = Field(default=None, description="The slug of the privilege to create.")
+    permissions: Optional[Annotated[List[ApiV1WorkspaceProjectSlugRolesPostRequestPermissionsInner], Field()]] = Field(default=None, description="@deprecated - use privilegePermission The permission object for the privilege. - Read secrets ``` { \"permissions\": [{\"action\": \"read\", \"subject\": \"secrets\"]} ``` - Read and Write secrets ``` { \"permissions\": [{\"action\": \"read\", \"subject\": \"secrets\"], {\"action\": \"write\", \"subject\": \"secrets\"]} ``` - Read secrets scoped to an environment and secret path ``` - { \"permissions\": [{\"action\": \"read\", \"subject\": \"secrets\", \"conditions\": { \"environment\": \"dev\", \"secretPath\": { \"$glob\": \"/\" } }}] } ``` ")
     privilege_permission: Optional[ApiV1AdditionalPrivilegeIdentityPermanentPostRequestPrivilegePermission] = Field(default=None, alias="privilegePermission")
     __properties = ["identityId", "projectSlug", "slug", "permissions", "privilegePermission"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

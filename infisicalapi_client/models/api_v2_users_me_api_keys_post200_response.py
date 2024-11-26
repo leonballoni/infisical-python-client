@@ -19,7 +19,7 @@ import json
 
 
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v2_users_me_api_keys_get200_response_inner import ApiV2UsersMeApiKeysGet200ResponseInner
 
 class ApiV2UsersMeApiKeysPost200Response(BaseModel):
@@ -29,11 +29,7 @@ class ApiV2UsersMeApiKeysPost200Response(BaseModel):
     api_key: StrictStr = Field(default=..., alias="apiKey")
     api_key_data: ApiV2UsersMeApiKeysGet200ResponseInner = Field(default=..., alias="apiKeyData")
     __properties = ["apiKey", "apiKeyData"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

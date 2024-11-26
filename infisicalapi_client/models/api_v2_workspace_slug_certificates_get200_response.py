@@ -19,21 +19,18 @@ import json
 
 
 from typing import List, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt
 from infisicalapi_client.models.api_v1_pki_certificates_serial_number_get200_response_certificate import ApiV1PkiCertificatesSerialNumberGet200ResponseCertificate
+from typing_extensions import Annotated
 
 class ApiV2WorkspaceSlugCertificatesGet200Response(BaseModel):
     """
     ApiV2WorkspaceSlugCertificatesGet200Response
     """
-    certificates: conlist(ApiV1PkiCertificatesSerialNumberGet200ResponseCertificate) = Field(...)
+    certificates: Annotated[List[ApiV1PkiCertificatesSerialNumberGet200ResponseCertificate], Field()] = Field(...)
     total_count: Union[StrictFloat, StrictInt] = Field(default=..., alias="totalCount")
     __properties = ["certificates", "totalCount"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

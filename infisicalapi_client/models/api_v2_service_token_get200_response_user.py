@@ -19,13 +19,14 @@ import json
 
 from datetime import datetime
 from typing import Any, List, Optional, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt, StrictStr
+from typing_extensions import Annotated
 
 class ApiV2ServiceTokenGet200ResponseUser(BaseModel):
     """
     ApiV2ServiceTokenGet200ResponseUser
     """
-    auth_methods: Optional[conlist(StrictStr)] = Field(default=None, alias="authMethods")
+    auth_methods: Optional[Annotated[List[StrictStr], Field()]] = Field(default=None, alias="authMethods")
     id: StrictStr = Field(...)
     created_at: datetime = Field(default=..., alias="createdAt")
     updated_at: datetime = Field(default=..., alias="updatedAt")
@@ -33,15 +34,11 @@ class ApiV2ServiceTokenGet200ResponseUser(BaseModel):
     email: Optional[StrictStr] = None
     first_name: Optional[StrictStr] = Field(default=None, alias="firstName")
     last_name: Optional[StrictStr] = Field(default=None, alias="lastName")
-    mfa_methods: Optional[conlist(StrictStr)] = Field(default=None, alias="mfaMethods")
+    mfa_methods: Optional[Annotated[List[StrictStr], Field()]] = Field(default=None, alias="mfaMethods")
     v: Optional[Union[StrictFloat, StrictInt]] = Field(default=0, alias="__v")
     id: StrictStr = Field(default=..., alias="_id")
     __properties = ["authMethods", "id", "createdAt", "updatedAt", "devices", "email", "firstName", "lastName", "mfaMethods", "__v", "_id"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

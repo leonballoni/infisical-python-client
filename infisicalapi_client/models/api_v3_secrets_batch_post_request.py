@@ -19,8 +19,9 @@ import json
 
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
 from infisicalapi_client.models.api_v3_secrets_batch_post_request_secrets_inner import ApiV3SecretsBatchPostRequestSecretsInner
+from typing_extensions import Annotated
 
 class ApiV3SecretsBatchPostRequest(BaseModel):
     """
@@ -29,13 +30,9 @@ class ApiV3SecretsBatchPostRequest(BaseModel):
     workspace_id: StrictStr = Field(default=..., alias="workspaceId")
     environment: StrictStr = Field(...)
     secret_path: Optional[StrictStr] = Field(default='/', alias="secretPath")
-    secrets: conlist(ApiV3SecretsBatchPostRequestSecretsInner, min_items=1) = Field(...)
+    secrets: Annotated[List[ApiV3SecretsBatchPostRequestSecretsInner], Field(min_length=1)] = Field(...)
     __properties = ["workspaceId", "environment", "secretPath", "secrets"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

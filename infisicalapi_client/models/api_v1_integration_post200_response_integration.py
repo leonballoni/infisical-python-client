@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from typing import Any, Optional
-from pydantic import BaseModel, Field, StrictBool, StrictStr
+from pydantic import ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV1IntegrationPost200ResponseIntegration(BaseModel):
     """
@@ -50,11 +50,7 @@ class ApiV1IntegrationPost200ResponseIntegration(BaseModel):
     sync_message: Optional[StrictStr] = Field(default=None, alias="syncMessage")
     last_sync_job_id: Optional[StrictStr] = Field(default=None, alias="lastSyncJobId")
     __properties = ["id", "isActive", "url", "app", "appId", "targetEnvironment", "targetEnvironmentId", "targetService", "targetServiceId", "owner", "path", "region", "scope", "integration", "metadata", "integrationAuthId", "envId", "secretPath", "createdAt", "updatedAt", "lastUsed", "isSynced", "syncMessage", "lastSyncJobId"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

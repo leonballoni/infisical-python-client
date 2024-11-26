@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool
+from pydantic import ConfigDict, BaseModel, Field, StrictBool
 from infisicalapi_client.models.api_v1_bot_bot_id_active_patch_request_bot_key import ApiV1BotBotIdActivePatchRequestBotKey
 
 class ApiV1BotBotIdActivePatchRequest(BaseModel):
@@ -29,11 +29,7 @@ class ApiV1BotBotIdActivePatchRequest(BaseModel):
     is_active: StrictBool = Field(default=..., alias="isActive")
     bot_key: Optional[ApiV1BotBotIdActivePatchRequestBotKey] = Field(default=None, alias="botKey")
     __properties = ["isActive", "botKey"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

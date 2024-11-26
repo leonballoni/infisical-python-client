@@ -19,20 +19,17 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, Field, StrictBool, constr
+from pydantic import StringConstraints, ConfigDict, BaseModel, Field, StrictBool
+from typing_extensions import Annotated
 
 class ApiV1WorkspaceWorkspaceIdPatchRequest(BaseModel):
     """
     ApiV1WorkspaceWorkspaceIdPatchRequest
     """
-    name: Optional[constr(strict=True, max_length=64)] = Field(default=None, description="The new name of the project.")
+    name: Optional[Annotated[str, StringConstraints(strict=True, max_length=64)]] = Field(default=None, description="The new name of the project.")
     auto_capitalization: Optional[StrictBool] = Field(default=None, alias="autoCapitalization", description="Disable or enable auto-capitalization for the project.")
     __properties = ["name", "autoCapitalization"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

@@ -19,24 +19,21 @@ import json
 
 
 from typing import List, Union
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, conlist
+from pydantic import ConfigDict, BaseModel, Field, StrictFloat, StrictInt, StrictStr
 from infisicalapi_client.models.api_v1_scim_groups_get200_response_resources_inner import ApiV1ScimGroupsGet200ResponseResourcesInner
+from typing_extensions import Annotated
 
 class ApiV1ScimGroupsGet200Response(BaseModel):
     """
     ApiV1ScimGroupsGet200Response
     """
-    resources: conlist(ApiV1ScimGroupsGet200ResponseResourcesInner) = Field(default=..., alias="Resources")
+    resources: Annotated[List[ApiV1ScimGroupsGet200ResponseResourcesInner], Field()] = Field(default=..., alias="Resources")
     items_per_page: Union[StrictFloat, StrictInt] = Field(default=..., alias="itemsPerPage")
-    schemas: conlist(StrictStr) = Field(...)
+    schemas: Annotated[List[StrictStr], Field()] = Field(...)
     start_index: Union[StrictFloat, StrictInt] = Field(default=..., alias="startIndex")
     total_results: Union[StrictFloat, StrictInt] = Field(default=..., alias="totalResults")
     __properties = ["Resources", "itemsPerPage", "schemas", "startIndex", "totalResults"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

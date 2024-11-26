@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 
-from pydantic import BaseModel, Field, StrictBool, StrictStr, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field, StrictBool, StrictStr
 
 class ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInnerAnyOf1(BaseModel):
     """
@@ -32,17 +32,14 @@ class ApiV1WorkspaceWorkspaceIdMembershipsMembershipIdPatchRequestRolesInnerAnyO
     temporary_access_start_time: datetime = Field(default=..., alias="temporaryAccessStartTime")
     __properties = ["role", "isTemporary", "temporaryMode", "temporaryRange", "temporaryAccessStartTime"]
 
-    @validator('temporary_mode')
+    @field_validator('temporary_mode')
+    @classmethod
     def temporary_mode_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('relative'):
             raise ValueError("must be one of enum values ('relative')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

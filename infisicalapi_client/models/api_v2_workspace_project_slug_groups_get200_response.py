@@ -19,20 +19,17 @@ import json
 
 
 from typing import List
-from pydantic import BaseModel, Field, conlist
+from pydantic import ConfigDict, BaseModel, Field
 from infisicalapi_client.models.api_v2_workspace_project_slug_groups_get200_response_group_memberships_inner import ApiV2WorkspaceProjectSlugGroupsGet200ResponseGroupMembershipsInner
+from typing_extensions import Annotated
 
 class ApiV2WorkspaceProjectSlugGroupsGet200Response(BaseModel):
     """
     ApiV2WorkspaceProjectSlugGroupsGet200Response
     """
-    group_memberships: conlist(ApiV2WorkspaceProjectSlugGroupsGet200ResponseGroupMembershipsInner) = Field(default=..., alias="groupMemberships")
+    group_memberships: Annotated[List[ApiV2WorkspaceProjectSlugGroupsGet200ResponseGroupMembershipsInner], Field()] = Field(default=..., alias="groupMemberships")
     __properties = ["groupMemberships"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

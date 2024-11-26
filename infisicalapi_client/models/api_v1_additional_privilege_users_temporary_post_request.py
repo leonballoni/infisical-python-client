@@ -19,31 +19,29 @@ import json
 
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist, constr, validator
+from pydantic import field_validator, StringConstraints, ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1AdditionalPrivilegeUsersTemporaryPostRequest(BaseModel):
     """
     ApiV1AdditionalPrivilegeUsersTemporaryPostRequest
     """
-    project_membership_id: constr(strict=True, min_length=1) = Field(default=..., alias="projectMembershipId", description="Project membership id of user")
-    slug: Optional[constr(strict=True, max_length=60, min_length=1)] = Field(default=None, description="The slug of the privilege to create.")
-    permissions: conlist(StrictStr) = Field(default=..., description="The permission object for the privilege. Refer https://casl.js.org/v6/en/guide/define-rules#the-shape-of-raw-rule to understand the shape")
+    project_membership_id: Annotated[str, StringConstraints(strict=True, min_length=1)] = Field(default=..., alias="projectMembershipId", description="Project membership id of user")
+    slug: Optional[Annotated[str, StringConstraints(strict=True, max_length=60, min_length=1)]] = Field(default=None, description="The slug of the privilege to create.")
+    permissions: Annotated[List[StrictStr], Field()] = Field(default=..., description="The permission object for the privilege. Refer https://casl.js.org/v6/en/guide/define-rules#the-shape-of-raw-rule to understand the shape")
     temporary_mode: StrictStr = Field(default=..., alias="temporaryMode", description="Type of temporary access given. Types: relative")
     temporary_range: StrictStr = Field(default=..., alias="temporaryRange", description="TTL for the temporay time. Eg: 1m, 1h, 1d")
     temporary_access_start_time: datetime = Field(default=..., alias="temporaryAccessStartTime", description="ISO time for which temporary access should begin.")
     __properties = ["projectMembershipId", "slug", "permissions", "temporaryMode", "temporaryRange", "temporaryAccessStartTime"]
 
-    @validator('temporary_mode')
+    @field_validator('temporary_mode')
+    @classmethod
     def temporary_mode_validate_enum(cls, value):
         """Validates the enum"""
         if value not in ('relative'):
             raise ValueError("must be one of enum values ('relative')")
         return value
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

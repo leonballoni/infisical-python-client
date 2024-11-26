@@ -19,7 +19,8 @@ import json
 
 
 from typing import Any, Dict, Optional, Union
-from pydantic import BaseModel, Field, StrictStr, confloat, conint
+from pydantic import ConfigDict, BaseModel, Field, StrictStr
+from typing_extensions import Annotated
 
 class ApiV1SecretRotationsPostRequest(BaseModel):
     """
@@ -28,17 +29,13 @@ class ApiV1SecretRotationsPostRequest(BaseModel):
     workspace_id: StrictStr = Field(default=..., alias="workspaceId")
     secret_path: StrictStr = Field(default=..., alias="secretPath")
     environment: StrictStr = Field(...)
-    interval: Union[confloat(ge=1, strict=True), conint(ge=1, strict=True)] = Field(...)
+    interval: Union[Annotated[float, Field(ge=1, strict=True)], Annotated[int, Field(ge=1, strict=True)]] = Field(...)
     provider: StrictStr = Field(...)
     custom_provider: Optional[StrictStr] = Field(default=None, alias="customProvider")
     inputs: Dict[str, Any] = Field(...)
     outputs: Dict[str, StrictStr] = Field(...)
     __properties = ["workspaceId", "secretPath", "environment", "interval", "provider", "customProvider", "inputs", "outputs"]
-
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(populate_by_name=True, validate_assignment=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
